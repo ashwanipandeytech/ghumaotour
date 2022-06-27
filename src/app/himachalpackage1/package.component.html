@@ -1,0 +1,351 @@
+<!-- Inner Banner html start-->
+<section class="inner-banner-wrap">
+    <div class="inner-baner-container" style="background-image: url(assets/images/inner-banner.jpg);">
+        <div class="container">
+            <div class="inner-banner-content">
+                <h1 class="inner-title">Package Detail</h1>
+            </div>
+        </div>
+    </div>
+    <div class="inner-shape"></div>
+</section>
+<!-- Inner Banner html end-->
+<div class="single-tour-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="single-tour-inner">
+                    <h2>Beautiful Shimla & Manali</h2>
+                    <figure class="feature-image">
+                        <img src="assets/images/img27.jpg" alt="">
+                        <div class="package-meta text-center">
+                            <ul>
+                                <li>
+                                    <i class="far fa-clock"></i> 5 Nights / 6 Days
+                                </li>
+                                <li>
+                                    <i class="fas fa-user-friends"></i> People: 4
+                                </li>
+                                <li>
+                                    <i class="fas fa-map-marked-alt"></i> Himachal
+                                </li>
+                            </ul>
+                        </div>
+                    </figure>
+                    <div id="test"></div>
+                    <div class="tab-container">
+                        <ul class="nav nav-tabs tab" [ngClass]="{'sticky': sticky}" id="myTab" role="tablist">
+
+                            <li class="nav-item" (click)="setActive('#program')">
+                                <a class="nav-link" id="program-tab" data-toggle="tab" href="#program" role="tab" aria-controls="program" aria-selected="false">PROGRAM</a>
+                            </li>
+                            <li class="nav-item" (click)="setActive('#inclusionexclusion')">
+                                <a class="nav-link" id="inclusionexclusion-tab" data-toggle="tab" href="#inclusionexclusion" role="tab" aria-controls="program" aria-selected="false">INCLUSIONS/EXCLUSIONS</a>
+                            </li>
+                            <li class="nav-item" (click)="setActive('#review')">
+                                <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">TERMS AND CONDITIONS </a>
+                            </li>
+                            <li class="nav-item" (click)="setActive('#map')">
+                                <a class="nav-link" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="false">CANCELLATIONS CHARGES
+                              </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent" #tabContent>
+                            <!-- <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                            <div class="overview-content">
+                                <p>Occaecat pariatur! Quaerat ligula, ab, consequuntur orci mus ultricies praesent aute blandit beatae nisl aut, totam mauris rhoncus? Tellus netus fringilla class auctor dui. Dolores excepteur, doloribus, blanditiis aliquip
+                                    nisl. Occaecat iusto? Provident sociis rerum. Amet, asperiores molestie varius eos! Libero, fermentum fermentum totam! Sunt praesentium, totam. Excepteur platea nisl. Convallis aliquam? Iaculis erat ipsa molestie,
+                                    quod, vestibulum reiciendis, maxime nostra, integer unde officiis quo integer unde officiis quo.</p>
+                                <p>Occaecat pariatur! Quaerat ligula, ab, consequuntur orci mus ultricies praesent aute blandit beatae nisl aut, totam mauris rhoncus? Tellus netus fringilla class auctor dui. Dolores excepteur, doloribus, blanditiis aliquip
+                                    nisl..
+                                </p>
+                                <ul>
+                                    <li>- Travel cancellation insurance</li>
+                                    <li>- Breakfast and dinner included</li>
+                                    <li>- Health care included</li>
+                                    <li>- Transfer to the airport and return to the agency</li>
+                                    <li>- Lorem ipsum dolor sit amet, consectetur adipiscing</li>
+                                </ul>
+                            </div>
+                        </div> -->
+
+                            <div #program class="tab-pane  show active" id="program" role="tabpanel" aria-labelledby="program-tab">
+                                <div class="itinerary-content">
+                                    <h3>Program <span>( 6 days )</span></h3>
+
+                                </div>
+                                <div class="itinerary-timeline-wrap">
+                                    <ul>
+                                        <li>
+                                            <div class="timeline-content">
+                                                <div class="day-count">Day <span>1</span></div>
+                                                <h4>Delhi - Shimla (380 kms . / 10 hrs.).
+                                                </h4>
+                                                <p>Morning departure to Shimla. Reach Shimla in the evening and check in to the hotel. Evening enjoy the Mall road of Shimla and the Ridge. Overnight Stay.
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="timeline-content">
+                                                <div class="day-count">Day <span>2</span></div>
+                                                <h4>Shimla - Kufri - Shimla
+                                                </h4>
+                                                <p>After breakfast, proceed to visit Kufri the famous tourist destination known for snow-laden peaks, skiing and Zoo. Also visit Christ Church in Kufri . Evening visit the beautiful Mall Road of Shimla . Overnight
+                                                    Stay at Shimla.
+
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="timeline-content">
+                                                <div class="day-count">Day <span>3</span></div>
+                                                <h4> Shimla - Manali (260 kms . / 9 hrs.)
+
+                                                </h4>
+                                                <p>After breakfast proceed to Manali ,pass through Beas river, Sutlej River and the beautiful Kullu Valley. (surrounded by Shivalik Ranges of Himalayas is famous for Apple Trees). Reach Manali in the evening.
+                                                    Evening visit local market. Overnight Stay at Manali.
+
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="timeline-content">
+                                                <div class="day-count">Day <span>4</span></div>
+                                                <h4>Manali - Rohtang Pass - Gulaba - Manali
+                                                </h4>
+                                                <p>Enjoy spectacular drive towards the famous point of Manali “Rohtang Snow Point” at an altitude of 3,980 mts. Here you can snow activities here such as skiing, snow scooter ride, and horse riding to make
+                                                    the most of your Manali Tour (Rohtang Pass is closed on Tuesday). While returning also visit Solang valley –the famous point for skiing in winter and in Summer famous for parachuting, zorbing, paragliding,
+                                                    and horse riding.Evening return to Manali. Overnight Stay at Manali.
+
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="timeline-content">
+                                                <div class="day-count">Day <span>5</span></div>
+                                                <h4>Manali - Chandigarh (285 kms . / 9 hrs.).
+                                                </h4>
+                                                <p>Morning proceed to Chandigarh .Arrive Chandigarh in the evening. En-route visit Pinjore Garden, Rock Garden, Rose Garden and boat ride in Sukhana Lake. Overnight Stay at Chandigarh.
+
+
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="timeline-content">
+                                                <div class="day-count">Day <span>6</span></div>
+                                                <h4>Chandigarh - Delhi (265 kms . / 5 hrs..).
+
+                                                </h4>
+                                                <p>Proceed to Delhi ,enroute visit Kurukshetra (if time permits) and then drop to Airport /Railway station for your onward journey. Tour Concludes with nice memories.
+
+                                                </p>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                    <b> Note: </b> As per National Green Tribunal, only local Himachal taxis are allowed to Rohtang pass. Charges are extra.
+
+                                </div>
+                            </div>
+
+                            <div #inclusionexclusion class="tab-pane  show active" id="inclusionexclusion" role="tabpanel" aria-labelledby="inclusionexclusion-tab">
+                                <div class="overview-content">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4>
+                                                TOUR INCLUSIONS
+                                            </h4>
+                                            <ul>
+                                                <li>- 2 nights accommodation in Shimla.
+
+                                                </li>
+                                                <li>- 2 nights accommodation in Manali .
+
+                                                </li>
+                                                <li>- Assistance at the airport.
+
+
+
+                                                </li>
+
+
+                                                <li>- Daily buffet breakfast in hotels.
+                                                </li>
+                                                <li>- A/C vehicle for all transfers and sightseeing as per the itinerary.( Ac will not operate in hilly areas as engine of vehicle will be seized).</li>
+                                                <li>- All applicable Hotel taxes.</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h4>
+                                                TOUR EXCLUSIONS
+                                            </h4>
+                                            <ul>
+                                                <li>- Any Air/ Train Tickets.</li>
+                                                <li>- Expenses of personal nature.</li>
+                                                <li>- All Entrances & Guide charges.
+                                                </li>
+                                                <li>- Boat Ride & Horse rides, Jeep Safari / Rides or Cable car or Ropeway on direct payment basis.
+
+                                                </li>
+                                                <li>- Local vehicle charges for Aru Valley, Chadanbadi , Betab Valley at Pahalgam.
+                                                </li>
+                                                <li>-Supplement for Special activities as per the itinerary.
+                                                </li>
+                                                <li>-Items of personal nature like laundry, phone calls, tips to guides / drivers etc.
+                                                </li>
+                                                <li>-Camera / Video camera fees applicable at monument.
+
+                                                </li>
+                                                <li>-5% Government GST .
+
+                                                </li>
+                                                <li>-Any other items/services not mentioned in “ Inclusions “.
+
+
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div #review class="tab-pane show active" id="review" role="tabpanel" aria-labelledby="review-tab">
+                                <div class="overview-content">
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <h4>
+                                                TERMS AND CONDITIONS
+                                            </h4>
+                                            <ul>
+                                                <li>- Price mentioned is on per person basis for two persons travelling together and sharing same room.
+
+                                                </li>
+                                                <li>- Bookings are subject to availability of rooms with the hotels.
+
+                                                </li>
+                                                <li>- The above package rate is not valid during national holidays, festivals, long weekends, Christmas and New Year.
+
+
+                                                </li>
+
+
+                                                <li>- The guest must carry photo identification like Passport/Driving License/Voter ID Card IN ORIGINAL at the point of check in at the hotel.
+
+                                                </li>
+                                                <li>- Rates are valid for India Nationals only.
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div #map class="tab-pane show active" id="map" role="tabpanel" aria-labelledby="map-tab">
+                                <div class="map-area mt-3">
+                                    <h4>
+                                        CANCELLATIONS CHARGES
+                                    </h4>
+                                    <table class="table-bordered">
+                                        <tr>
+                                            <th>No of days prior to departure </th>
+                                            <th> Charges</th>
+                                            <th> Applied On</th>
+
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                0-7 Days
+
+                                            </td>
+                                            <td>
+                                                100 %
+
+                                            </td>
+                                            <td>
+                                                Package price per person
+
+                                            </td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td> 8-14 Days</td>
+                                            <td>
+                                                75 %
+
+                                            </td>
+                                            <td> Package price per person</td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td> 15-29 Days</td>
+                                            <td>
+                                                50 %
+
+                                            </td>
+                                            <td> Package price per person</td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                30-45 Days
+
+                                            </td>
+                                            <td>
+                                                25 %
+
+                                            </td>
+                                            <td> Package price per person</td>
+
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="single-tour-gallery">
+                        <h3>POPULAR PACKAGES</h3>
+                        <div class="single-tour-slider slick-initialized slick-slider slick-dotted">
+                            <app-packageslider [configType]="'other'"></app-packageslider>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4" id="inquiryformsection">
+                <app-packageenquiry></app-packageenquiry>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- subscribe section html start -->
+<section class="subscribe-section" style="background-image: url(assets/images/img16.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="section-heading section-heading-white">
+                    <h5 class="dash-style">HOLIDAY PACKAGE OFFER</h5>
+                    <h2>HOLIDAY SPECIAL 10% OFF !</h2>
+                    <h4>Sign up now to recieve hot special offers and information about the best tour packages, updates and discounts !!</h4>
+                    <div class="newsletter-form">
+                        <form>
+                            <input type="email" name="s" placeholder="Your Email Address">
+                            <input type="submit" name="signup" value="SIGN UP NOW!">
+                        </form>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo. Eaque adipiscing, luctus eleifend temporibus occaecat luctus eleifend tempo ribus.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- subscribe html end -->

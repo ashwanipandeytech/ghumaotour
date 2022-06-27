@@ -1,0 +1,1179 @@
+<!-- Home slider html start -->
+<section class="home-slider-section">
+    <div class="home-slider">
+        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+            <div ngxSlickItem class="home-banner-items slide">
+                <div class="banner-inner-wrap">
+                    <video height="{{bannerHeight}}" oncontextmenu="return false;" controlsList="nodownload" class="hero-image" [muted]="true" autoplay playsinline loop>
+    <source src="../../../assets/videos/bg.mp4" type="video/mp4">
+    </video>
+                </div>
+
+                <!-- <div class="banner-inner-wrap" style="background-image: url(assets/images/slider-banner-1.jpg);"></div> -->
+                <div class="banner-content-wrap">
+                    <div class="container">
+                        <div class="banner-content text-center">
+                            <h2 class="banner-title">TRAVELLING AROUND THE WORLD</h2>
+                            <p>Ghumao.in is a leading travel company that specializes in providing tailor made holiday packages to it’s customers.</p>
+                            <a href="#" class="button-primary">CONTINUE READING</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="overlay"></div>
+            </div>
+            <div ngxSlickItem class="home-banner-items slide">
+                <div class="banner-inner-wrap" style="background-image: url(assets/images/slider-banner-2.jpg);"></div>
+                <div class="banner-content-wrap">
+                    <div class="container">
+                        <div class="banner-content text-center">
+                            <h2 class="banner-title">EXPERIENCE THE NATURE'S BEAUTY</h2>
+                            <p>Ghumao.in is a leading travel company that specializes in providing tailor made holiday packages to it’s customers.</p>
+                            <a href="#" class="button-primary">CONTINUE READING</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="overlay"></div>
+            </div>
+        </ngx-slick-carousel>
+        <!-- <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+
+            <div ngxSlickItem class="home-banner-items slide">
+                <div class="banner-inner-wrap" style="background-image: url(assets/images/slider-banner-1.jpg);"></div>
+                <div class="banner-content-wrap">
+                    <div class="container">
+                        <div class="banner-content text-center">
+                            <h2 class="banner-title">TRAVELLING AROUND THE WORLD</h2>
+                            <p>Taciti quasi, sagittis excepteur hymenaeos, id temporibus hic proident ullam, eaque donec delectus tempor consectetur nunc, purus congue? Rem volutpat sodales! Mollit. Minus exercitationem wisi.</p>
+                            <a href="#" class="button-primary">CONTINUE READING</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="overlay"></div>
+            </div>
+            <div ngxSlickItem class="home-banner-items slide">
+                <div class="banner-inner-wrap" style="background-image: url(assets/images/slider-banner-2.jpg);"></div>
+                <div class="banner-content-wrap">
+                    <div class="container">
+                        <div class="banner-content text-center">
+                            <h2 class="banner-title">EXPERIENCE THE NATURE'S BEAUTY</h2>
+                            <p>Taciti quasi, sagittis excepteur hymenaeos, id temporibus hic proident ullam, eaque donec delectus tempor consectetur nunc, purus congue? Rem volutpat sodales! Mollit. Minus exercitationem wisi.</p>
+                            <a href="#" class="button-primary">CONTINUE READING</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="overlay"></div>
+            </div>
+        </ngx-slick-carousel> -->
+    </div>
+</section>
+<!-- slider html start -->
+<!-- Home search field html start -->
+<div class="trip-search-section shape-search-section" id="inquiryformsection">
+    <div class="slider-shape"></div>
+    <div class="container">
+        <form #inquiryform="ngForm" name="form" (ngSubmit)="inquiryform.form.valid && submitinquiryform(inquiryform)" novalidate>
+            <div class="trip-search-inner white-bg row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="input-group col-md-4">
+                            <label> Name* </label>
+                            <input type="text" name="fullName" #fullName="ngModel" required [(ngModel)]="inquiryData.fullName" placeholder="Enter Name">
+                            <div class="error-msg" *ngIf="fullName.touched">
+                                <span class="text-danger" *ngIf="fullName.errors?.required">
+                               Name is Required
+                               </span>
+                            </div>
+                        </div>
+                        <div class="input-group col-md-4">
+                            <label> Phone Number* </label>
+                            <input type="text" name="phone" [(ngModel)]="inquiryData.phone" #phone="ngModel" required placeholder=" Phone Number">
+                            <div class="error-msg" *ngIf="phone.touched">
+                                <span class="text-danger" *ngIf="phone.errors?.required">
+                                  Phone Number is Required
+                                 </span>
+                            </div>
+                        </div>
+                        <div class="input-group col-md-4">
+                            <label> Email Id </label>
+                            <input class="input-date-picker" type="text" name="email" [(ngModel)]="inquiryData.email" #email="ngModel" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" placeholder="Email Id" autocomplete="off">
+                            <div class="error-msg" *ngIf="email.dirty || email.touched">
+                                <span class="text-danger" *ngIf="email.invalid && email.errors.pattern">
+                                  Invalid Email
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="input-group col-md-4">
+                            <label> Destination Traveling* </label>
+                            <input type="text" name="destination" required [(ngModel)]="inquiryData.destination" #destination="ngModel" placeholder="Destination travelling">
+
+                            <div class="error-msg" *ngIf="destination.touched">
+                                <span class="text-danger" *ngIf="destination.errors?.required">
+                                Destination is Required
+                             </span>
+                            </div>
+
+                        </div>
+
+                        <div class="input-group col-md-4">
+                            <label> Number Of Travelers</label>
+                            <input type="text" name="noOfTravellers" [(ngModel)]="inquiryData.noOfTravellers" #noOfTravellers="ngModel" placeholder="Number Of Travelers" autocomplete="off">
+
+                        </div>
+                        <div class="input-group col-md-4">
+                            <label> Traveling Month </label>
+                            <input class="input-date-picker" type="text" name="travellingMonth" [(ngModel)]="inquiryData.travellingMonth" #travellingMonth="ngModel" placeholder="Number Of People Traveling" autocomplete="off">
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-md-4 setheight">
+                    <div class="input-group w-100 align-middle">
+                        <label class="screen-reader-text"> Search </label>
+                        <input type="submit" name="travel-search" value="INQUIRE NOW">
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+<!-- search search field html end -->
+<section class="destination-section">
+    <div class="container">
+        <div class="section-heading">
+            <div class="row align-items-end">
+                <div class="col-lg-7">
+                    <h5 class="dash-style">POPULAR DESTINATION</h5>
+                    <h2>TOP NOTCH DESTINATION</h2>
+                </div>
+                <div class="col-lg-5">
+                    <div class="section-disc">
+                        With a rich heritage and myriad attractions, the country is among the most popular tourist destinations in the world. From historical cities to natural splendours, come see the best of India.
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="destination-inner destination-three-column">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="desti-item overlay-desti-item">
+                                <figure class="desti-image">
+                                    <img src="assets/images/Kashmir.png" alt="">
+                                </figure>
+                                <div class="meta-cat bg-meta-cat">
+                                    <a href="#">Kashmir</a>
+                                </div>
+                                <div class="desti-content">
+                                    <h3>
+                                        <a href="#">Kashmir</a>
+                                    </h3>
+                                    <div class="rating-start" title="Rated 5 out of 4">
+                                        <span style="width: 53%"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="desti-item overlay-desti-item">
+                                <figure class="desti-image">
+                                    <img src="assets/images/manali.png" alt="">
+                                </figure>
+                                <div class="meta-cat bg-meta-cat">
+                                    <a href="#">Manali</a>
+                                </div>
+                                <div class="desti-content">
+                                    <h3>
+                                        <a href="#">Manali</a>
+                                    </h3>
+                                    <div class="rating-start" title="Rated 5 out of 5">
+                                        <span style="width: 100%"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row">
+                        <div class="col-md-6 col-xl-12">
+                            <div class="desti-item overlay-desti-item">
+                                <figure class="desti-image">
+                                    <img src="assets/images/Ladakh.png" alt="">
+                                </figure>
+                                <div class="meta-cat bg-meta-cat">
+                                    <a href="#">Ladakh</a>
+                                </div>
+                                <div class="desti-content">
+                                    <h3>
+                                        <a href="#">Ladakh</a>
+                                    </h3>
+                                    <div class="rating-start" title="Rated 5 out of 5">
+                                        <span style="width: 100%"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-12">
+                            <div class="desti-item overlay-desti-item">
+                                <figure class="desti-image">
+                                    <img src="assets/images/Darjeeling3.png" alt="">
+                                </figure>
+                                <div class="meta-cat bg-meta-cat">
+                                    <a href="#">Darjeeling</a>
+                                </div>
+                                <div class="desti-content">
+                                    <h3>
+                                        <a href="#">Darjeeling</a>
+                                    </h3>
+                                    <div class="rating-start" title="Rated 5 out of 4">
+                                        <span style="width: 60%"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-wrap text-center">
+                <a href="#" class="button-primary">MORE DESTINATION</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Home packages section html start -->
+<section class="package-section">
+    <div class="container">
+        <div class="section-heading text-center">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <h5 class="dash-style">EXPLORE GREAT PLACES</h5>
+                    <h2>POPULAR PACKAGES</h2>
+                    <p>Book your perfect Dream vacation package from a wide range of customised holiday packages and explore all exciting tourist destinationss.</p>
+                </div>
+            </div>
+        </div>
+        <div class="package-inner">
+
+            <app-packageslider [configType]="'full'"></app-packageslider>
+
+
+
+
+            <div class="btn-wrap text-center">
+                <a href="#" class="button-primary">VIEW ALL PACKAGES</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- packages html end -->
+<!-- Home callback section html start -->
+<section class="callback-section">
+    <div class="container">
+        <div class="row no-gutters align-items-center">
+            <div class="col-lg-5">
+                <!-- <div class="callback-img">
+                    <video oncontextmenu="return false;" width="600" height="1040" controlsList="nodownload" class="hero-image" [muted]="true" autoplay playsinline loop>
+                    <source src="../../../assets/videos/sidevideo.mp4">
+                    </video>
+                    <div class="video-button">
+                        <a id="video-container" data-video-id="IUN664s7N-c">
+                            <i class="fas fa-play"></i>
+                        </a>
+                    </div>
+                </div> -->
+
+
+                <div class="callback-img" style="background-image: url(assets/images/img8.jpg);">
+                    <div class="video-button">
+                        <a id="video-container" data-video-id="IUN664s7N-c">
+                            <i class="fas fa-play"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="callback-inner">
+                    <div class="section-heading section-heading-white">
+                        <h5 class="dash-style">CALLBACK FOR MORE</h5>
+                        <h2>GO TRAVEL. DISCOVER. REMEMBER US!!</h2>
+                        <p>Get amazing deals and offers on customizable packages across top destinations!</p>
+                    </div>
+                    <div class="callback-counter-wrap">
+
+                        <div class="counter-item">
+                            <div class="counter-icon">
+                                <img src="assets/images/icon1.png" alt="">
+                            </div>
+                            <div class="counter-content">
+                                <span class="counter-no">
+                             <span class="counter">1000</span>+
+                                </span>
+                                <span class="counter-text">
+                                      Satisfied customers
+                          </span>
+                            </div>
+                        </div>
+                        <div class="counter-item">
+                            <div class="counter-icon">
+                                <img src="assets/images/icon2.png" alt="">
+                            </div>
+                            <div class="counter-content">
+                                <span class="counter-no">
+                             <span class="counter">250</span>+
+                                </span>
+                                <span class="counter-text">
+                                      Premium Tours
+                          </span>
+                            </div>
+                        </div>
+                        <div class="counter-item">
+                            <div class="counter-icon">
+                                <img src="assets/images/icon3.png" alt="">
+                            </div>
+                            <div class="counter-content">
+                                <span class="counter-no">
+                             <span class="counter">35</span>+
+                                </span>
+                                <span class="counter-text">
+                                      Locations covered
+                          </span>
+                            </div>
+                        </div>
+                        <div class="counter-item">
+                            <div class="counter-icon">
+                                <img src="assets/images/icon4.png" alt="">
+                            </div>
+                            <div class="counter-content">
+                                <span class="counter-no">
+                             <span class="counter">24x7 </span>
+                                </span>
+                                <span class="counter-text">
+                                  Support
+                          </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="support-area">
+                        <div class="support-icon">
+                            <img src="assets/images/icon5.png" alt="">
+                        </div>
+                        <div class="support-content">
+                            <h4>Our 24x7 Phone service</h4>
+                            <h3>
+                                <a href="tel:+919818306992">Call: +91-9818306992</a>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- callback html end -->
+<!-- Home activity section html start -->
+<section class="activity-section">
+    <div class="container">
+        <div class="section-heading text-center">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <h5 class="dash-style">TRAVEL BY ACTIVITY</h5>
+                    <h2>ADVENTURE & ACTIVITY</h2>
+                    <p>Mollit voluptatem perspiciatis convallis elementum corporis quo veritatis aliquid blandit, blandit torquent, odit placeat. Adipiscing repudiandae eius cursus? Nostrum magnis maxime curae placeat.</p>
+                </div>
+            </div>
+        </div>
+        <div class="activity-inner row">
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <a href="#">
+                            <img src="assets/images/icon6.png" alt="">
+                        </a>
+                    </div>
+                    <div class="activity-content">
+                        <h4>
+                            <a href="#">Family Tour package
+                              </a>
+                        </h4>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <a href="#">
+                            <img src="assets/images/icon10.png" alt="">
+                        </a>
+                    </div>
+                    <div class="activity-content">
+                        <h4>
+                            <a href="#">Honeymoon Tour Package
+                              </a>
+                        </h4>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <a href="#">
+                            <img src="assets/images/icon9.png" alt="">
+                        </a>
+                    </div>
+                    <div class="activity-content">
+                        <h4>
+                            <a href="#">Adventure Tour Package</a>
+                        </h4>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <a href="#">
+                            <img src="assets/images/icon7.png" alt="">
+                        </a>
+                    </div>
+                    <div class="activity-content">
+                        <h4>
+                            <a href="#">Pilgrimage Tour Package
+                              </a>
+                        </h4>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <a href="#">
+                            <img src="assets/images/icon11.png" alt="">
+                        </a>
+                    </div>
+                    <div class="activity-content">
+                        <h4>
+                            <a href="#">Premium <br> Tours</a>
+                        </h4>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <a href="#">
+                            <img src="assets/images/icon11.png" alt="">
+                        </a>
+                    </div>
+                    <div class="activity-content">
+                        <h4>
+                            <a href="#">Experiential Tour
+
+                              </a>
+                        </h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- activity html end -->
+
+
+
+<section class="package-section">
+    <div class="container">
+        <div class="section-heading text-center">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <h5 class="dash-style">EXPLORE GREAT PLACES</h5>
+                    <h2>HONEYMOON SPECIAL</h2>
+                    <p>Book your perfect Dream vacation package from a wide range of customised holiday packages and explore all exciting tourist destinationss.</p>
+                </div>
+            </div>
+        </div>
+        <div class="package-inner">
+
+
+
+
+            <ngx-slick-carousel class="row package-slider carousel" #slickModal="slick-carousel" [config]="slideConfigPackage" (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+
+                <div ngxSlickItem class="col-lg-4 col-md-6  col-sm-4 slide">
+                    <div class="package-wrap">
+                        <figure class="feature-image">
+                            <a href="#">
+                                <img src="assets/images/Leh.png" alt="">
+                            </a>
+                        </figure>
+                        <!-- <div class="package-price">
+                            <h6>
+                                <span>$1,900 </span> / per person
+                            </h6>
+                        </div> -->
+                        <div class="package-content-wrap">
+                            <div class="package-meta text-center">
+                                <ul>
+                                    <li>
+                                        <i class="far fa-clock"></i> 7N/8D
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-user-friends"></i> People: 5
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-map-marker-alt"></i> Leh
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="package-content">
+                                <h3>
+                                    <a href="#">Leh</a>
+                                </h3>
+                                <div class="review-area">
+                                    <span class="review-text">(25 reviews)</span>
+                                    <div class="rating-start" title="Rated 5 out of 5">
+                                        <span style="width: 60%"></span>
+                                    </div>
+                                </div>
+                                <div class="innercontent">
+                                    <p>Leh is a dream destination for many travellers in India and even for those who are visiting from overseas.</p>
+                                </div>
+                                <div class="btn-wrap">
+                                    <a (click)="utilityservice.scrollToComponent('inquiryformsection')" class="button-text width-6" class="button-text width-6">Enquire Now<i class="fas fa-arrow-right"></i></a>
+                                    <a href="#" class="button-text width-6">Know More </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div ngxSlickItem class="col-lg-4 col-md-6  col-sm-4 slide">
+                    <div class="package-wrap">
+                        <figure class="feature-image">
+                            <a href="#">
+                                <img src="assets/images/ooty.png" alt="">
+                            </a>
+                        </figure>
+                        <!-- <div class="package-price">
+                            <h6>
+                                <span>$1,900 </span> / per person
+                            </h6>
+                        </div> -->
+                        <div class="package-content-wrap">
+                            <div class="package-meta text-center">
+                                <ul>
+                                    <li>
+                                        <i class="far fa-clock"></i> 7N/8D
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-user-friends"></i> People: 5
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-map-marker-alt"></i> Darjeeling
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="package-content">
+                                <h3>
+                                    <a href="#">Darjeeling</a>
+                                </h3>
+                                <div class="review-area">
+                                    <span class="review-text">(25 reviews)</span>
+                                    <div class="rating-start" title="Rated 5 out of 5">
+                                        <span style="width: 60%"></span>
+                                    </div>
+                                </div>
+                                <div class="innercontent">
+                                    <p>Darjeeling, nestled among rolling mountains, is a perfect destination for outdoor enthusiasts.</p>
+                                </div>
+                                <div class="btn-wrap">
+                                    <a (click)="utilityservice.scrollToComponent('inquiryformsection')" class="button-text width-6" class="button-text width-6">Enquire Now<i class="fas fa-arrow-right"></i></a>
+                                    <a href="#" class="button-text width-6">Know More </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div ngxSlickItem class="col-lg-4 col-md-6  col-sm-4 slide">
+                    <div class="package-wrap">
+                        <figure class="feature-image">
+                            <a href="#">
+                                <img src="assets/images/ooty.png" alt="">
+                            </a>
+                        </figure>
+                        <!-- <div class="package-price">
+                            <h6>
+                                <span>$1,900 </span> / per person
+                            </h6>
+                        </div> -->
+                        <div class="package-content-wrap">
+                            <div class="package-meta text-center">
+                                <ul>
+                                    <li>
+                                        <i class="far fa-clock"></i> 7N/8D
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-user-friends"></i> People: 5
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-map-marker-alt"></i> Himachal
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="package-content">
+                                <h3>
+                                    <a href="#">Himachal</a>
+                                </h3>
+                                <div class="review-area">
+                                    <span class="review-text">(25 reviews)</span>
+                                    <div class="rating-start" title="Rated 5 out of 5">
+                                        <span style="width: 60%"></span>
+                                    </div>
+                                </div>
+                                <div class="innercontent">
+                                    <p>Himachal Pradesh is a breathtaking state synonymous with lush greenery, spectacular views, a rich culture, delicious food and so much more.</p>
+                                </div>
+                                <div class="btn-wrap">
+                                    <a (click)="utilityservice.scrollToComponent('inquiryformsection')" class="button-text width-6">Enquire Now<i class="fas fa-arrow-right"></i></a>
+                                    <a href="#" class="button-text width-6">Know More </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div ngxSlickItem class="col-lg-4 col-md-6  col-sm-4 slide">
+                    <div class="package-wrap">
+                        <figure class="feature-image">
+                            <a href="#">
+                                <img src="assets/images/ooty.png" alt="">
+                            </a>
+                        </figure>
+                        <!-- <div class="package-price">
+                            <h6>
+                                <span>$1,900 </span> / per person
+                            </h6>
+                        </div> -->
+                        <div class="package-content-wrap">
+                            <div class="package-meta text-center">
+                                <ul>
+                                    <li>
+                                        <i class="far fa-clock"></i> 7N/8D
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-user-friends"></i> People: 5
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-map-marker-alt"></i> Bhutan
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="package-content">
+                                <h3>
+                                    <a href="#">Bhutan</a>
+                                </h3>
+                                <div class="review-area">
+                                    <span class="review-text">(25 reviews)</span>
+                                    <div class="rating-start" title="Rated 5 out of 5">
+                                        <span style="width: 60%"></span>
+                                    </div>
+                                </div>
+                                <div class="innercontent">
+                                    <p>Be its colourful culture or enigmatic mountain, the tourist places in Bhutan has always attracted tourists from across the world. .
+                                    </p>
+                                </div>
+                                <div class="btn-wrap">
+                                    <a (click)="utilityservice.scrollToComponent('inquiryformsection')" class="button-text width-6">Enquire Now<i class="fas fa-arrow-right"></i></a>
+                                    <a href="#" class="button-text width-6">Know More </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div ngxSlickItem class="col-lg-4 col-md-6  col-sm-4 slide">
+                    <div class="package-wrap">
+                        <figure class="feature-image">
+                            <a href="#">
+                                <img src="assets/images/Gangtok.png" alt="">
+                            </a>
+                        </figure>
+                        <!-- <div class="package-price">
+                            <h6>
+                                <span>$1,900 </span> / per person
+                            </h6>
+                        </div> -->
+                        <div class="package-content-wrap">
+                            <div class="package-meta text-center">
+                                <ul>
+                                    <li>
+                                        <i class="far fa-clock"></i> 7N/8D
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-user-friends"></i> People: 5
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-map-marker-alt"></i> Gangtok
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="package-content">
+                                <h3>
+                                    <a href="#">Gangtok</a>
+                                </h3>
+                                <div class="review-area">
+                                    <span class="review-text">(25 reviews)</span>
+                                    <div class="rating-start" title="Rated 5 out of 5">
+                                        <span style="width: 60%"></span>
+                                    </div>
+                                </div>
+                                <div class="innercontent">
+                                    <p>Incredibly alluring, pleasantly boisterous and wreathed in clouds - Gangtok, the capital of Sikkim, is one of the most popular hill stations in India.</p>
+                                </div>
+                                <div class="btn-wrap">
+                                    <a (click)="utilityservice.scrollToComponent('inquiryformsection')" class="button-text width-6">Enquire Now<i class="fas fa-arrow-right"></i></a>
+                                    <a href="#" class="button-text width-6">Know More </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div ngxSlickItem class="col-lg-4 col-md-6  col-sm-4 slide">
+                    <div class="package-wrap">
+                        <figure class="feature-image">
+                            <a href="#">
+                                <img src="assets/images/Europe.png" alt="">
+                            </a>
+                        </figure>
+                        <!-- <div class="package-price">
+                            <h6>
+                                <span>$1,900 </span> / per person
+                            </h6>
+                        </div> -->
+                        <div class="package-content-wrap">
+                            <div class="package-meta text-center">
+                                <ul>
+                                    <li>
+                                        <i class="far fa-clock"></i> 7N/8D
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-user-friends"></i> People: 5
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-map-marker-alt"></i> Europe
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="package-content">
+                                <h3>
+                                    <a href="#">Europe</a>
+                                </h3>
+                                <div class="review-area">
+                                    <span class="review-text">(25 reviews)</span>
+                                    <div class="rating-start" title="Rated 5 out of 5">
+                                        <span style="width: 60%"></span>
+                                    </div>
+                                </div>
+                                <div class="innercontent">
+                                    <p>Say the word Europe. It’s the power of one name that evokes an explosion of art, history, beauty, culture, architecture, cuisine, romance, literature…everything you’d want in a vacation spot.</p>
+                                </div>
+                                <div class="btn-wrap">
+                                    <a (click)="utilityservice.scrollToComponent('inquiryformsection')" class="button-text width-6">Enquire Now<i class="fas fa-arrow-right"></i></a>
+                                    <a href="#" class="button-text width-6">Know More </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div ngxSlickItem class="col-lg-4 col-md-6  col-sm-4 slide">
+                    <div class="package-wrap">
+                        <figure class="feature-image">
+                            <a href="#">
+                                <img src="assets/images/Thailand.png" alt="">
+                            </a>
+                        </figure>
+                        <!-- <div class="package-price">
+                            <h6>
+                                <span>$1,900 </span> / per person
+                            </h6>
+                        </div> -->
+                        <div class="package-content-wrap">
+                            <div class="package-meta text-center">
+                                <ul>
+                                    <li>
+                                        <i class="far fa-clock"></i> 7N/8D
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-user-friends"></i> People: 5
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-map-marker-alt"></i> Thailand
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="package-content">
+                                <h3>
+                                    <a href="#">Thailand</a>
+                                </h3>
+                                <div class="review-area">
+                                    <span class="review-text">(25 reviews)</span>
+                                    <div class="rating-start" title="Rated 5 out of 5">
+                                        <span style="width: 60%"></span>
+                                    </div>
+                                </div>
+                                <div class="innercontent">
+                                    <p>Thailand, a dreamy beachside paradise, that has managed to retain its cultural integrity in spite of being a major tourist destination.</p>
+                                </div>
+                                <div class="btn-wrap">
+                                    <a (click)="utilityservice.scrollToComponent('inquiryformsection')" class="button-text width-6">Enquire Now<i class="fas fa-arrow-right"></i></a>
+                                    <a href="#" class="button-text width-6">Know More </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ngx-slick-carousel>
+
+            <!-- <div class="btn-wrap text-center">
+                <a href="#" class="button-primary">VIEW ALL PACKAGES</a>
+            </div> -->
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<!-- Home special section html start -->
+<section class="special-section">
+    <div class="container">
+        <div class="section-heading text-center">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <h5 class="dash-style">TRAVEL OFFER & DISCOUNT</h5>
+                    <h2>SPECIAL TRAVEL OFFER</h2>
+                    <p>These exclusive tour offers present amazing opportunities to explore the country . Browse through season special holiday deals with a wide range of options for summer, monsoon and winters.</p>
+                </div>
+            </div>
+        </div>
+        <div class="special-inner">
+            <div class="row">
+                <div class="col-md-6 col-lg-4">
+                    <div class="special-item">
+                        <figure class="special-img">
+                            <img src="assets/images/goa-S.png" alt="">
+                        </figure>
+                        <!-- <div class="badge-dis">
+                            <span>
+                          <strong>20%</strong>
+                          off
+                       </span>
+                        </div> -->
+                        <div class="special-content">
+                            <div class="meta-cat">
+                                <a href="#">GOA</a>
+                            </div>
+                            <h3>
+                                <a href="#">A cocktail of tropical influences. </a>
+                            </h3>
+                            <!-- <div class="package-price">
+                                Price:
+                                <del>$1500</del>
+                                <ins>$1200</ins>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="special-item">
+                        <figure class="special-img">
+                            <img src="assets/images/Gujarat-S.png" alt="">
+                        </figure>
+                        <!-- <div class="badge-dis">
+                            <span>
+                          <strong>15%</strong>
+                          off
+                       </span>
+                        </div> -->
+                        <div class="special-content">
+                            <div class="meta-cat">
+                                <a href="#">GUJARAT</a>
+                            </div>
+                            <h3>
+                                <a href="#">Explore the best of Gujarat.</a>
+                            </h3>
+                            <!-- <div class="package-price">
+                                Price:
+                                <del>$1300</del>
+                                <ins>$1105</ins>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="special-item">
+                        <figure class="special-img">
+                            <img src="assets/images/Rajasthan-S.png" alt="">
+                        </figure>
+                        <!-- <div class="badge-dis">
+                                <span>
+                          <strong>15%</strong>
+                          off
+                       </span>
+                            </div> -->
+                        <div class="special-content">
+                            <div class="meta-cat">
+                                <a href="#">RAJASTHAN</a>
+                            </div>
+                            <h3>
+                                <a href="#">Royal, Regal, Revered – Rajasthan.</a>
+                            </h3>
+                            <!-- <div class="package-price">
+                                Price:
+                                <del>$1800</del>
+                                <ins>$1476</ins>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- special html end -->
+<!-- Home special section html start -->
+<section class="best-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="section-heading">
+                    <h5 class="dash-style">OUR TOUR GALLERY</h5>
+                    <h2>BEST TRAVELER'S SHARED PHOTOS</h2>
+                    <p>Our happy travelers shared some coolest images they’ve taken while exploring the world, so here are some of the best ones.</p>
+                </div>
+                <figure class="gallery-img">
+                    <img src="assets/images/bl.png" alt="">
+                </figure>
+            </div>
+            <div class="col-lg-7">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <figure class="gallery-img">
+                            <img src="assets/images/upr1.png" alt="">
+                        </figure>
+                    </div>
+                    <div class="col-sm-6">
+                        <figure class="gallery-img">
+                            <img src="assets/images/upr2.png" alt="">
+                        </figure>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <figure class="gallery-img">
+                            <img src="assets/images/br.png" alt="">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- best html end -->
+<!-- Home client section html start -->
+<!-- <div class="client-section">
+    <div class="container">
+        <div class="client-wrap client-slider secondary-bg">
+            <div class="client-item">
+                <figure>
+                    <img src="assets/images/logo1.png" alt="">
+                </figure>
+            </div>
+            <div class="client-item">
+                <figure>
+                    <img src="assets/images/logo2.png" alt="">
+                </figure>
+            </div>
+            <div class="client-item">
+                <figure>
+                    <img src="assets/images/logo3.png" alt="">
+                </figure>
+            </div>
+            <div class="client-item">
+                <figure>
+                    <img src="assets/images/logo4.png" alt="">
+                </figure>
+            </div>
+            <div class="client-item">
+                <figure>
+                    <img src="assets/images/logo5.png" alt="">
+                </figure>
+            </div>
+            <div class="client-item">
+                <figure>
+                    <img src="assets/images/logo2.png" alt="">
+                </figure>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- client html end -->
+<!-- Home subscribe section html start -->
+<section class="subscribe-section" style="background-image: url(assets/images/img16.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="section-heading section-heading-white">
+                    <h5 class="dash-style">Our Special offers for our new users</h5>
+                    <h2>NEW USERS SPECIAL 10% OFF !</h2>
+                    <h4>Sign up now to recieve hot special offers and information about the best tour packages, updates and discounts !!</h4>
+                    <div class="newsletter-form">
+                        <form>
+                            <input type="email" name="s" placeholder="Your Email Address">
+                            <input type="submit" name="signup" value="SIGN UP NOW!">
+                        </form>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo. Eaque adipiscing, luctus eleifend temporibus occaecat luctus eleifend tempo ribus.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- subscribe html end -->
+
+<!-- Home testimonial section html start -->
+<div class="testimonial-section mt-3" style="background-image: url(assets/images/img23.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+
+                <ngx-slick-carousel class="carousel testimonial-inner testimonial-slider" #slickModal1="slick-carousel" [config]="slideConfigTestimonial" (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+                    <div ngxSlickItem class="testimonial-item text-center slide">
+                        <figure class="testimonial-img">
+                            <img src="assets/images/img20.jpg" alt="">
+                        </figure>
+                        <div class="testimonial-content">
+                            <p>"Our Thailand trip was well planned and coordinated by Anuradha & team. Appreciate their prompt and professional service. Everything went well according to the itinerary provided. Anuradha was available to assist all the time
+                                with any queries and suggested well on the places to visit. Overall amazing travel experience. All the best and keep up the good work! "
+                            </p>
+                            <cite>
+                              -Himanshu
+
+                       </cite>
+                        </div>
+                    </div>
+                    <div ngxSlickItem class="testimonial-item text-center slide">
+                        <figure class="testimonial-img">
+                            <img src="assets/images/img22.jpg" alt="">
+                        </figure>
+                        <div class="testimonial-content">
+                            <p>"Great trip with family..After a long time had the best experience of what travel is... The place, the climate everything was surreal and the best experience with stay, food and comfort.. Thanks, Ghumao.in for such a good trip
+                                "
+                            </p>
+                            <cite>
+                              -Pooja Garg
+                          <!-- <span class="company">Travel Agent</span> -->
+                       </cite>
+                        </div>
+                    </div>
+                    <div ngxSlickItem class="testimonial-item text-center slide">
+                        <figure class="testimonial-img">
+                            <img src="assets/images/img22.jpg" alt="">
+                        </figure>
+                        <div class="testimonial-content">
+                            <p>"First and foremost, we want to express our gratitude to Ghumao.in team and Mrs Anuradha for organising our fantastic trip to Himachal. I believe that submitting a review of our Himachal vacation is the greatest method for
+                                us to express our appreciation for your excellent service. Our journey was fantastic. Highly Recommended. The services and hotels provided were best. "
+                            </p>
+                            <cite>
+                              -Priyanka Sharma
+                          <!-- <span class="company">Travel Guide</span> -->
+                       </cite>
+                        </div>
+                    </div>
+                </ngx-slick-carousel>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- testimonial html end -->
+<!-- Home contact details section html start -->
+<section class="contact-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="contact-img" style="background-image: url(assets/images/img24.jpg);">
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="contact-details-wrap">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="contact-details">
+                                <div class="contact-icon">
+                                    <img src="assets/images/icon12.png" alt="">
+                                </div>
+                                <ul>
+                                    <li>
+                                        <a href="mailto:anuradha@ghumao.in"><span class="__cf_email__" >anuradha@ghumao.in</span></a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="contact-details">
+                                <div class="contact-icon">
+                                    <img src="assets/images/icon13.png" alt="">
+                                </div>
+                                <ul>
+                                    <li>
+                                        <a href="tel:+919818306992">+91-9818306992
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="contact-details">
+                                <div class="contact-icon">
+                                    <img src="assets/images/icon14.png" alt="">
+                                </div>
+                                <ul>
+                                    <li>
+                                        34/40,Old Rajinder Nagar,New Delhi-110060
+
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-btn-wrap">
+                    <h3>LET'S JOIN US FOR MORE UPDATE !!</h3>
+                    <a href="#" class="button-primary">LEARN MORE</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  contact details html end -->

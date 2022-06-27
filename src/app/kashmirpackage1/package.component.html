@@ -1,0 +1,338 @@
+<!-- Inner Banner html start-->
+<section class="inner-banner-wrap">
+    <div class="inner-baner-container" style="background-image: url(assets/images/inner-banner.jpg);">
+        <div class="container">
+            <div class="inner-banner-content">
+                <h1 class="inner-title">Package Detail</h1>
+            </div>
+        </div>
+    </div>
+    <div class="inner-shape"></div>
+</section>
+<!-- Inner Banner html end-->
+<div class="single-tour-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="single-tour-inner">
+                    <h2>Amazing Kashmir with Srinagar, Pahalgam and Gulmarg ( Ex –Srinagar)</h2>
+                    <figure class="feature-image">
+                        <img src="assets/images/img27.jpg" alt="">
+                        <div class="package-meta text-center">
+                            <ul>
+                                <li>
+                                    <i class="far fa-clock"></i> 4 Nights / 5 Days
+                                </li>
+                                <li>
+                                    <i class="fas fa-user-friends"></i> People: 4
+                                </li>
+                                <li>
+                                    <i class="fas fa-map-marked-alt"></i> Kashmir
+                                </li>
+                            </ul>
+                        </div>
+                    </figure>
+                    <div id="test"></div>
+                    <div class="tab-container">
+                        <ul class="nav nav-tabs tab" [ngClass]="{'sticky': sticky}" id="myTab" role="tablist">
+
+                            <li class="nav-item" (click)="setActive('#program')">
+                                <a class="nav-link" id="program-tab" data-toggle="tab" href="#program" role="tab" aria-controls="program" aria-selected="false">PROGRAM</a>
+                            </li>
+                            <li class="nav-item" (click)="setActive('#inclusionexclusion')">
+                                <a class="nav-link" id="inclusionexclusion-tab" data-toggle="tab" href="#inclusionexclusion" role="tab" aria-controls="program" aria-selected="false">INCLUSIONS/EXCLUSIONS</a>
+                            </li>
+                            <li class="nav-item" (click)="setActive('#review')">
+                                <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">TERMS AND CONDITIONS </a>
+                            </li>
+                            <li class="nav-item" (click)="setActive('#map')">
+                                <a class="nav-link" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="false">CANCELLATIONS CHARGES
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent" #tabContent>
+                            <!-- <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                              <div class="overview-content">
+                                  <p>Occaecat pariatur! Quaerat ligula, ab, consequuntur orci mus ultricies praesent aute blandit beatae nisl aut, totam mauris rhoncus? Tellus netus fringilla class auctor dui. Dolores excepteur, doloribus, blanditiis aliquip
+                                      nisl. Occaecat iusto? Provident sociis rerum. Amet, asperiores molestie varius eos! Libero, fermentum fermentum totam! Sunt praesentium, totam. Excepteur platea nisl. Convallis aliquam? Iaculis erat ipsa molestie,
+                                      quod, vestibulum reiciendis, maxime nostra, integer unde officiis quo integer unde officiis quo.</p>
+                                  <p>Occaecat pariatur! Quaerat ligula, ab, consequuntur orci mus ultricies praesent aute blandit beatae nisl aut, totam mauris rhoncus? Tellus netus fringilla class auctor dui. Dolores excepteur, doloribus, blanditiis aliquip
+                                      nisl..
+                                  </p>
+                                  <ul>
+                                      <li>- Travel cancellation insurance</li>
+                                      <li>- Breakfast and dinner included</li>
+                                      <li>- Health care included</li>
+                                      <li>- Transfer to the airport and return to the agency</li>
+                                      <li>- Lorem ipsum dolor sit amet, consectetur adipiscing</li>
+                                  </ul>
+                              </div>
+                          </div> -->
+
+                            <div #program class="tab-pane  show active" id="program" role="tabpanel" aria-labelledby="program-tab">
+                                <div class="itinerary-content">
+                                    <h3>Program <span>( 5 days )</span></h3>
+
+                                </div>
+                                <div class="itinerary-timeline-wrap">
+                                    <ul>
+                                        <li>
+                                            <div class="timeline-content">
+                                                <div class="day-count">Day <span>1</span></div>
+                                                <h4>Arrive Srinagar </h4>
+                                                <p>Arrival at Srinagar Airport. Upon arrival, meet & greet and transfer to Hotel / House Boat. Proceed for local sightseeing visiting Mughal Gardens-Cheshmashahi, NishatBagh (Abode of pleasure) Built by Asif
+                                                    Khan Brother-in-law of Emperor Jehangir in 1632 AD and Shalimar Bagh (Abode of love) on the bank of Dal Lake with the Zabarwan Mountain in the background. Late afternoon Shikara ride on Dal Lake visiting
+                                                    floating and Vegetable gardens etc. Also witness walnut woodcarving and Paper Machine making demonstration. Overnight stay in Hotel/ Houseboat at Srinagar.
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="timeline-content">
+                                                <div class="day-count">Day <span>2</span></div>
+                                                <h4>Srinagar- Sonmarg-Srinagar(83 kms one way/ 3 hrs.)
+                                                </h4>
+                                                <p>Morning after breakfast, proceed for full day excursion to Sonamarg (Meadow of Gold) .Sonmarg lies in Sindh valley stream with flowers and surrounded by mountains. Sonmarg is also the base for some interesting
+                                                    treks to the high altitude of Himalayan lakes. Enjoy horse riding up to Thajwas glacier and sledge riding on snow (at your own cost). Later evening drive back to Srinagar. Overnight stay at Srinagar.
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="timeline-content">
+                                                <div class="day-count">Day <span>3</span></div>
+                                                <h4>Srinagar-Pahalgam-Srinagar (95 kms one way / 3 hrs )
+                                                </h4>
+                                                <p>After breakfast, drive to Pahalgam (valley of shepherds). En-route visiting Saffron fields, Awantipora ruins (1100 yrs old temple of Lord Vishnu built by King Awantiverma), Pine forests and lot of rice fields.
+                                                    Arrive Srinagar and transfer to hotel. You can visit Betab Valley , Baisaran by Pony and local car ( at your own cost ) , Later have bridle walks and feed your cameras with the picture of magnificent
+                                                    view of mountains.Evening return back to Srinagar, Overnight stay at Srinagar.
+                                                    <br>Note: You are required to hire a local cab to visit Aru Valley, Betaab Valley & Chandanwari as per the rules passed by the Taxi Union of Pahalgam. (Approx. Cost Rs. 1800 - 2000 per vehicle).
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="timeline-content">
+                                                <div class="day-count">Day <span>4</span></div>
+                                                <h4>Srinagar- Gulmarg- Srinagar ( 60 kms one way / 2.5 hrs)
+
+
+                                                </h4>
+                                                <p>After breakfast, proceed to Gulmarg (Meadow of Flowers) 2730 Mts above sea level. Gulmarg has one of the best ski slopes in the world and highest golf course of the world with 18 holes. 0ne can also have
+                                                    the view of Nanga Parbat if weather permits. The view enroute from Tangmarg to Gulmarg is fascinating. One can experience the longest cable car ride up to the Khilanmarg Snow Point or also have a short
+                                                    trek up to Khilanmarg which can be covered in about 3hrs. Later evening return back to Srinagar . Overnight stay at Srinagar.
+
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="timeline-content">
+                                                <div class="day-count">Day <span>5</span></div>
+                                                <h4>Srinagar Airport
+
+                                                </h4>
+                                                <p>After breakfast, transfer to Srinagar Airport to catch the flight for your onward journey. Tour concludes with nice memories.
+
+                                                </p>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div #inclusionexclusion class="tab-pane  show active" id="inclusionexclusion" role="tabpanel" aria-labelledby="inclusionexclusion-tab">
+                                <div class="overview-content">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4>
+                                                TOUR INCLUSIONS
+                                            </h4>
+                                            <ul>
+                                                <li>- 1 night accommodation in House Boat.
+                                                </li>
+                                                <li>- 3 nights accommodation in Srinagar .
+                                                </li>
+                                                <li>- Assistance at the airport.
+
+                                                </li>
+
+
+                                                <li>- Daily buffet breakfast in hotels.
+                                                </li>
+                                                <li>- A/C vehicle for all transfers and sightseeing as per the itinerary.( Ac will not operate in hilly areas as engine of vehicle will be seized).</li>
+                                                <li>- All applicable Hotel taxes.</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h4>
+                                                TOUR EXCLUSIONS
+                                            </h4>
+                                            <ul>
+                                                <li>- Any Air/ Train Tickets.</li>
+                                                <li>- Expenses of personal nature.</li>
+                                                <li>- All Entrances & Guide charges.
+                                                </li>
+                                                <li>- Gandola ride . Boat Ride & Horse rides, Jeep Safari / Rides or Cable car or Ropeway on direct payment basis.
+                                                </li>
+                                                <li>- Local vehicle charges for Aru Valley, Chadanbadi , Betab Valley at Pahalgam.
+                                                </li>
+                                                <li>-Supplement for Special activities as per the itinerary.
+                                                </li>
+                                                <li>-Items of personal nature like laundry, phone calls, tips to guides / drivers etc.
+                                                </li>
+                                                <li>-Camera / Video camera fees applicable at monument.
+
+                                                </li>
+                                                <li>-5% Government GST .
+
+                                                </li>
+                                                <li>-Any other items/services not mentioned in “ Inclusions “.
+
+
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div #review class="tab-pane show active" id="review" role="tabpanel" aria-labelledby="review-tab">
+                                <div class="overview-content">
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <h4>
+                                                TERMS AND CONDITIONS
+                                            </h4>
+                                            <ul>
+                                                <li>- Price mentioned is on per person basis for two persons travelling together and sharing same room.
+
+                                                </li>
+                                                <li>- Bookings are subject to availability of rooms with the hotels.
+
+                                                </li>
+                                                <li>- The above package rate is not valid during national holidays, festivals, long weekends, Christmas and New Year.
+
+
+                                                </li>
+
+
+                                                <li>- The guest must carry photo identification like Passport/Driving License/Voter ID Card IN ORIGINAL at the point of check in at the hotel.
+
+                                                </li>
+                                                <li>- Rates are valid for India Nationals only.
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div #map class="tab-pane show active" id="map" role="tabpanel" aria-labelledby="map-tab">
+                                <div class="map-area mt-3">
+                                    <h4>
+                                        CANCELLATIONS CHARGES
+                                    </h4>
+                                    <table class="table-bordered">
+                                        <tr>
+                                            <th>No of days prior to departure </th>
+                                            <th> Charges</th>
+                                            <th> Applied On</th>
+
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                0-7 Days
+
+                                            </td>
+                                            <td>
+                                                100 %
+
+                                            </td>
+                                            <td>
+                                                Package price per person
+
+                                            </td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td> 8-14 Days</td>
+                                            <td>
+                                                75 %
+
+                                            </td>
+                                            <td> Package price per person</td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td> 15-29 Days</td>
+                                            <td>
+                                                50 %
+
+                                            </td>
+                                            <td> Package price per person</td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                30-45 Days
+
+                                            </td>
+                                            <td>
+                                                25 %
+
+                                            </td>
+                                            <td> Package price per person</td>
+
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="single-tour-gallery">
+                        <h3>POPULAR PACKAGES</h3>
+                        <div class="single-tour-slider slick-initialized slick-slider slick-dotted">
+                            <app-packageslider [configType]="'other'"></app-packageslider>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4" id="inquiryformsection">
+                <app-packageenquiry></app-packageenquiry>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<!-- subscribe section html start -->
+<section class="subscribe-section" style="background-image: url(assets/images/img16.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="section-heading section-heading-white">
+                    <h5 class="dash-style">HOLIDAY PACKAGE OFFER</h5>
+                    <h2>HOLIDAY SPECIAL 10% OFF !</h2>
+                    <h4>Sign up now to recieve hot special offers and information about the best tour packages, updates and discounts !!</h4>
+                    <div class="newsletter-form">
+                        <form>
+                            <input type="email" name="s" placeholder="Your Email Address">
+                            <input type="submit" name="signup" value="SIGN UP NOW!">
+                        </form>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo. Eaque adipiscing, luctus eleifend temporibus occaecat luctus eleifend tempo ribus.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- subscribe html end -->

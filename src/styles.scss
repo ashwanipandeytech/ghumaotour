@@ -1,0 +1,53 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'scss/variables';
+// Bootstrap
+// @import '~bootstrap/scss/bootstrap';
+// @import '~swiper/swiper-bundle';
+@import 'scss/color';
+@import 'scss/base';
+@import 'scss/form';
+@import 'scss/nav';
+@import 'scss/slider';
+@import 'scss/header-banner';
+@import 'scss/simple-image-parallax';
+@import 'scss/swiper';
+@import 'scss/carousal';
+@import 'scss/widget';
+@import 'scss/searchBoxCard';
+@import 'scss/serp-card';
+@import 'scss/category-card';
+@import 'scss/packageCards';
+@import 'scss/special-package-section';
+@import 'scss/destinations';
+@import 'scss/itinerary';
+@import 'scss/footer';
+@import 'scss/enquiry';
+@import 'scss/admin/sidebar-container';
+@import 'scss/admin/page-title';
+.sticky {
+    position: sticky;
+    top: 62px;
+    overflow: hidden;
+    z-index: 1;
+    background-color: #F56960;
+}
+
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link:focus,
+.nav-tabs .nav-link.active {
+    color: #383838 !important;
+}
+
+.setheight {
+    height: 126px;
+}
+
+.package-content {
+    height: 300px;
+    ;
+}
+
+.innercontent {
+    height: 100px;
+}
