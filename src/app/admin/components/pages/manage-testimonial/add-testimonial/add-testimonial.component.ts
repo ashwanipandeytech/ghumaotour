@@ -2,9 +2,11 @@ import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';  
+import Swal from 'sweetalert2';
 
 import { AdminService } from 'src/app/admin/services/admin.service';
+
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-add-testimonial',
@@ -20,7 +22,7 @@ export class AddTestimonialComponent implements OnInit {
     error:Boolean;
     errorMessage:String;
 
-    constructor(private adminApiService: AdminService, private router: Router) {}
+    constructor(private adminApiService: AdminService, private router: Router,private apiservice:ApiService) {}
 
     ngOnInit(): void {
         this.initAddTestimonialForm();
@@ -47,16 +49,9 @@ export class AddTestimonialComponent implements OnInit {
 
     addTestimonialAction(){
         if (this.addTestimonialFrom.valid) {
-            if(this.uploadImage) {
-                this.imageUpload()
-            }
-            else {
-                this.addTestimonialFrom.patchValue({
-                    Image: $('#ImageUrl').val().toString()
-                });
 
-                this.addTestimonial();
-            }
+          this.addTestimonial();
+
         } else {
             this.addTestimonialFrom.markAsTouched();
             this.error = true;
@@ -68,16 +63,25 @@ export class AddTestimonialComponent implements OnInit {
         // Get Stored token
         let token = localStorage.getItem('token');
 
-        this.adminApiService.addTestimonial(this.addTestimonialFrom.value, token).subscribe(
-            result => {
+        var formData = new FormData();
+        formData.append('Name', this.addTestimonialFrom.get('Name').value);
+        formData.append('Address',this.addTestimonialFrom.get('Address').value);
+        formData.append('Testimonial',this.addTestimonialFrom.get('Testimonial').value);
+        formData.append('Image', this.imageUploadForm.get('FileSource').value);
+
+
+        this.apiservice.callApiWithBearer(formData, 'testimonial/add').subscribe(
+            (result:any) => {
                 if(result.success){
                     Swal.fire({
-                        position: 'top-end',  
-                        icon: 'success',  
+                        position: 'top-end',
+                        icon: 'success',
                         title: 'Testimonial Created!',
-                        showConfirmButton: false,  
+                        showConfirmButton: false,
                         timer: 1500
-                    }); 
+                    });
+
+
                     setTimeout(() => {
                         this.router.navigate(['/admin/testimonial']);
                     }, 1800);

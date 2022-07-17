@@ -2,8 +2,8 @@ import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';  
-
+import Swal from 'sweetalert2';
+import { ApiService } from 'src/app/services/api.service';
 import { AdminService } from 'src/app/admin/services/admin.service';
 
 @Component({
@@ -31,13 +31,13 @@ export class AddCategoriesComponent implements OnInit {
     error:Boolean;
     errorMessage:String;
 
-    constructor(private adminApiService: AdminService, private router: Router) {}
+    constructor(private adminApiService: AdminService,private apiService:ApiService, private router: Router) {}
 
     ngOnInit(): void {
         this.initAddCategoryForm();
         this.intiImageUploadForm();
         this.error = false;
-        this.uploadImage = true;
+        this.uploadImage = false;
     }
 
     intiImageUploadForm() {
@@ -50,26 +50,29 @@ export class AddCategoriesComponent implements OnInit {
     initAddCategoryForm(){
         this.addCategoryFrom = new FormGroup({
             CategoryName: new FormControl('', [Validators.required, Validators.minLength(6)]),
-            CategorySlug: new FormControl('', [Validators.required, Validators.minLength(6)]),
-            StartingPrice: new FormControl('', [Validators.required]),
-            Keys: new FormArray([]),
             Description: new FormControl(''),
+            isMenu:new FormControl(false),
+            IsActive:new FormControl(false),
+          //  StartingPrice:new FormControl(0),
             Image: new FormControl('')
         });
     }
 
     addCategoryAction(){
+      console.info(this.addCategoryFrom.valid)
         if (this.addCategoryFrom.valid) {
-            if(this.uploadImage) {
-                this.imageUpload()
-            }
-            else {
-                this.addCategoryFrom.patchValue({
-                    Image: $('#ImageUrl').val().toString()
-                });
+          // this.imageUpload()
+          this.addCategory();
+            // if(this.uploadImage) {
+            //     this.imageUpload()
+            // }
+            // else {
+            //     this.addCategoryFrom.patchValue({
+            //         Image: $('#ImageUrl').val().toString()
+            //     });
 
-                this.addCategory();
-            }
+            //     this.addCategory();
+            // }
         } else {
             this.addCategoryFrom.markAsTouched();
             this.error = true;
@@ -78,20 +81,37 @@ export class AddCategoriesComponent implements OnInit {
     }
 
     addCategory(){
-        // Get Stored token
-        let token = localStorage.getItem('token');
 
-        this.adminApiService.addCategory(this.addCategoryFrom.value, token).subscribe(
-            result => {
+
+
+        var formData = new FormData();
+        formData.append('CategoryName', this.addCategoryFrom.get('CategoryName').value);
+        formData.append('Description', this.addCategoryFrom.get('Description').value);
+        formData.append('IsActive', (this.addCategoryFrom.get('IsActive').value)?'Yes':'No');
+        formData.append('isMenu', (this.addCategoryFrom.get('isMenu').value)?'Yes':'No');
+        formData.append('CreatedBy', '0');
+        formData.append('StartingPrice', '0');
+        //formData.append('Image', '0');
+        if(this.uploadImage && this.imageUploadForm.get('FileSource').value && this.imageUploadForm.get('FileSource').value!=''){
+          formData.append('Image', this.imageUploadForm.get('FileSource').value);
+        }
+
+
+
+
+     //   console.info(formData);return false
+
+        this.apiService.callApiWithBearer(formData, 'category/add').subscribe(
+            (result:any) => {
                 //console.log(result);
                 if(result.success){
                     Swal.fire({
-                        position: 'top-end',  
-                        icon: 'success',  
-                        title: 'Category Created!',  
-                        showConfirmButton: false,  
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Category Created!',
+                        showConfirmButton: false,
                         timer: 1500
-                    }); 
+                    });
                     setTimeout(() => {
                         this.router.navigate(['/admin/categories']);
                     }, 1800);
@@ -113,10 +133,12 @@ export class AddCategoriesComponent implements OnInit {
     imageUpload() {
         // Get Stored token
         let token = localStorage.getItem('token');
+       // return false;
 
         if (this.imageUploadForm.valid) {
             var formData = new FormData();
             formData.append('Image', this.imageUploadForm.get('FileSource').value);
+            console.info(formData);return false
 
             this.adminApiService.uploadImage(formData, token).subscribe(
                 result => {
@@ -159,28 +181,37 @@ export class AddCategoriesComponent implements OnInit {
         }
     }
 
-    checkboxAction(event){
-        const formArray: FormArray = this.addCategoryFrom.get('Keys') as FormArray;
+    checkboxAction(event,type){
+      console.info(this.addCategoryFrom)
 
-        /* Selected */
-        if(event.target.checked){
-            // Add a new control in the arrayForm
-            formArray.push(new FormControl(event.target.value));
-        }
-        /* unselected */
-        else{
-            // find the unselected element
-            let i: number = 0;
+      if(type=='isMenu'){
 
-            formArray.controls.forEach((ctrl: FormControl) => {
-                if(ctrl.value == event.target.value) {
-                    formArray.removeAt(i);
-                    return;
-                }
 
-                i++;
-            });
-        }
+      }
+      else if(type=='IsActive'){
+
+      }
+        // const formArray: FormArray = this.addCategoryFrom.get('Keys') as FormArray;
+
+        // /* Selected */
+        // if(event.target.checked){
+        //     // Add a new control in the arrayForm
+        //     formArray.push(new FormControl(event.target.value));
+        // }
+        // /* unselected */
+        // else{
+        //     // find the unselected element
+        //     let i: number = 0;
+
+        //     formArray.controls.forEach((ctrl: FormControl) => {
+        //         if(ctrl.value == event.target.value) {
+        //             formArray.removeAt(i);
+        //             return;
+        //         }
+
+        //         i++;
+        //     });
+        // }
     }
 
     enableDisableImageUploadAction(){

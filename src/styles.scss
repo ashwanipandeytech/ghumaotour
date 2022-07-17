@@ -7,7 +7,7 @@
 @import 'scss/color';
 @import 'scss/base';
 @import 'scss/form';
-@import 'scss/nav';
+// @import 'scss/nav';
 @import 'scss/slider';
 @import 'scss/header-banner';
 @import 'scss/simple-image-parallax';
@@ -50,4 +50,8 @@
 
 .innercontent {
     height: 100px;
+}
+
+table thead tr {
+    background-color: rgb(245, 245, 245) !important;
 }

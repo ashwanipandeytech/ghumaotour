@@ -16,23 +16,23 @@
 
                     <form class="gateway-form" [formGroup]="formGroup" (ngSubmit)="loginAction()">
                         <div class="mb-3">
-                            <label for="EmailId" class="form-label">Email address</label>
-                            <input type="EmailId" class="form-control" id="EmailId" formControlName="EmailId">
-                            <small *ngIf="formGroup.controls['EmailId'].invalid && (formGroup.controls['EmailId'].dirty || formGroup.controls['EmailId'].touched)" class="text-danger">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="email" formControlName="email">
+                            <small *ngIf="formGroup.controls['email'].invalid && (formGroup.controls['email'].dirty || formGroup.controls['email'].touched)" class="text-danger">
                               <small>Please Enter Email Correctly</small>
                             </small>
-                            <small *ngIf="formGroup.controls['EmailId'].valid || formGroup.controls['EmailId'].untouched" class="text-muted">
+                            <small *ngIf="formGroup.controls['email'].valid || formGroup.controls['email'].untouched" class="text-muted">
                               <small>Please Enter Email</small>
                             </small>
                         </div>
                         <div class="mb-3">
-                            <label for="Password" class="form-label">Password</label>
-                            <input type="Password" class="form-control" id="Password" formControlName="Password">
-                            <small *ngIf="formGroup.controls['Password'].invalid && (formGroup.controls['Password'].dirty || formGroup.controls['Password'].touched)" class="text-danger">
-                              <small>Please Enter Password Correctly. Min 6 characters required</small>
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" formControlName="password">
+                            <small *ngIf="formGroup.controls['password'].invalid && (formGroup.controls['password'].dirty || formGroup.controls['password'].touched)" class="text-danger">
+                              <small>Please Enter password Correctly. Min 6 characters required</small>
                             </small>
-                            <small *ngIf="formGroup.controls['Password'].valid || formGroup.controls['Password'].untouched" class="text-muted">
-                              <small>Please Enter Password</small>
+                            <small *ngIf="formGroup.controls['password'].valid || formGroup.controls['password'].untouched" class="text-muted">
+                              <small>Please Enter password</small>
                             </small>
                         </div>
                         <div class="mb-3 form-check">

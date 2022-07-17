@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   slideConfigPackage={
     dots: false,
     infinite: true,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 1500,
     speed: 1500,
     slidesToShow: 3,
@@ -95,10 +95,12 @@ export class HomeComponent implements OnInit {
     }
 
     this.dataservice.callApi(this.inquiryData, 'sendemail.php').subscribe((res: any) => {
-     console.info(res,'enquiry')
+
       this.toastr.success('Thank!,We have received your Inquiry.');
 
     })
+
+
 
 
 

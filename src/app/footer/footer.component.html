@@ -39,47 +39,42 @@
                         </div>
                     </aside>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6" *ngIf="popularpackages!=''">
                     <aside class="widget widget_recent_post">
                         <h3 class="widget-title">Popular packages</h3>
                         <ul>
-                            <li>
+                            <!-- <li>
 
 
-                                <div class=" d-flex justify-content-between">
-                                    <b>
-                                          <a href="#"> LEH</a>
-                                    </b>
-                                    <b>
-                                            <a href="#"> OOTY</a>
-                                       </b>
+                                <div>
+                                    <div class="row">
+                                        <div class="col-6" *ngFor="let item of popularpackages;let odd = odd;">
+                                            <div>
+                                                <b>
+                                             <a href="#"> {{item.PackageName  | uppercase }}</a>
+                                            </b>
+
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+
+
                                 </div>
 
 
-                            </li>
+                            </li> -->
 
-                            <li>
+                            <li *ngFor=" let item of popularpackages">
                                 <div class=" d-flex justify-content-between">
-                                    <b>
-                                    <a href="#"> GANGTOK</a>
+                                    <b *ngFor="let packageName of item">
+                                    <a href="#"> {{ packageName.PackageName  | uppercase }}</a>
                                 </b>
-                                    <b>
-                                  <a href="#"> EUROPE</a>
-                              </b>
+
                                 </div>
 
-                            </li>
-
-                            <li>
-
-                                <div class=" d-flex justify-content-between">
-                                    <b>
-                                    <a href="#"> SINGAPORE</a>
-                                </b>
-                                    <b>
-                                  <a href="#"> THAILAND</a>
-                              </b>
-                                </div>
                             </li>
 
                         </ul>

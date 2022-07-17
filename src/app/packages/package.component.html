@@ -1,0 +1,204 @@
+<ng-container *ngIf="data!=''">
+
+    <!-- Inner Banner html start-->
+    <section class="inner-banner-wrap">
+
+        <div class="inner-baner-container" style="background-image: url({{imageSrc}});">
+            <div class="container">
+                <div class="inner-banner-content">
+                    <h1 class="inner-title">{{data.PackageName}}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="inner-shape"></div>
+    </section>
+    <!-- Inner Banner html end-->
+    <div class="single-tour-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="single-tour-inner">
+                        <h2>{{data.Title}}</h2>
+                        <figure class="feature-image">
+                            <img src="assets/images/img27.jpg" alt="">
+                            <div class="package-meta text-center">
+                                <ul>
+                                    <li *ngIf="data.NoOfDays!=''">
+                                        <i class="far fa-clock"></i> {{data.NoOfDays-1}} Nights / {{data.NoOfDays}} Days
+                                    </li>
+                                    <li *ngIf="data.NumberOfPerson!=''">
+                                        <i class="fas fa-user-friends"></i> People: {{data.NumberOfPerson}}
+                                    </li>
+                                    <li *ngIf="data.PackageName!=''">
+                                        <i class="fas fa-map-marked-alt"></i> {{data.PackageName}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </figure>
+                        <div id="test"></div>
+                        <div class="tab-container">
+                            <ul class="nav nav-tabs tab" [ngClass]="{'sticky': sticky}" id="myTab" role="tablist">
+
+                                <li class="nav-item" (click)="setActive('#program')" *ngIf="data.programs!=''">
+                                    <a class="nav-link" id="program-tab" data-toggle="tab" href="#program" role="tab" aria-controls="program" aria-selected="false">PROGRAM</a>
+                                </li>
+                                <li class="nav-item" (click)="setActive('#inclusionexclusion')">
+                                    <a class="nav-link" id="inclusionexclusion-tab" data-toggle="tab" href="#inclusionexclusion" role="tab" aria-controls="program" aria-selected="false" *ngIf="data.Inclusions!='' || data.Exclusions!=''">INCLUSIONS/EXCLUSIONS</a>
+                                </li>
+                                <li class="nav-item" (click)="setActive('#review')">
+                                    <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false" *ngIf="data.Terms!=''">TERMS AND CONDITIONS </a>
+                                </li>
+                                <li class="nav-item" (click)="setActive('#map')">
+                                    <a class="nav-link" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="false" *ngIf="data.Cancellation!=''">CANCELLATIONS CHARGES
+                              </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent" #tabContent>
+
+
+                                <div #program class="tab-pane  show active " id="program" role="tabpanel" aria-labelledby="program-tab" *ngIf="data.programs!=''">
+                                    <div class="itinerary-content">
+                                        <h3>Program <span>( {{data.NoOfDays}} days )</span></h3>
+
+                                    </div>
+                                    <div class="itinerary-timeline-wrap">
+                                        <ul>
+                                            <li *ngFor="let item of data.Programs; let i=index">
+                                                <div class="timeline-content">
+                                                    <div class="day-count">Day <span>{{item.Day}}</span></div>
+                                                    <h4 *ngIf="item.title!=''">{{item.Title}}</h4>
+                                                    <p *ngIf="item.Description!=''">
+                                                        {{item.Description}}
+                                                    </p>
+                                                </div>
+                                            </li>
+
+
+                                        </ul>
+                                        <span *ngIf="data.Note!=''"><b>Note:</b> {{data.Note}} </span>
+                                    </div>
+                                </div>
+
+                                <div #inclusionexclusion class="tab-pane  show active" id="inclusionexclusion" role="tabpanel" aria-labelledby="inclusionexclusion-tab" *ngIf="data.Inclusions!='' || data.Exclusions!=''">
+                                    <div class="overview-content">
+
+                                        <div class="row mt-3">
+                                            <div class="col-md-6" *ngIf="data.Inclusions!=''">
+                                                <h4>
+                                                    TOUR INCLUSIONS
+                                                </h4>
+                                                <ul>
+                                                    <li *ngFor="let item of data.Inclusions;"><span *ngIf="item.text!=''"> - {{item.text}} </span>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-6" *ngIf="data.Exclusions!=''">
+                                                <h4>
+                                                    TOUR EXCLUSIONS
+                                                </h4>
+                                                <ul>
+                                                    <li *ngFor="let item of data.Exclusions;"><span *ngIf="item.text!=''"> - {{item.text}} </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div #review class="tab-pane show active" id="review" role="tabpanel" aria-labelledby="review-tab" *ngIf="data.Terms!=''">
+                                    <div class="overview-content">
+
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <h4>
+                                                    TERMS AND CONDITIONS
+                                                </h4>
+                                                <ul>
+                                                    <li *ngFor="let item of data.Terms;"><span *ngIf="item.text!=''"> - {{item.text}} </span>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div #map class="tab-pane show active" id="map" role="tabpanel" aria-labelledby="map-tab" *ngIf="data.Cancellation!=''">
+                                    <div class="map-area mt-3">
+                                        <h4>
+                                            CANCELLATIONS CHARGES
+                                        </h4>
+                                        <table class="table-bordered">
+                                            <tr>
+                                                <th>No of days prior to departure </th>
+                                                <th> Charges</th>
+                                                <th> Applied On</th>
+
+                                            </tr>
+                                            <tr *ngFor="let item of data.Cancellation">
+                                                <td>
+                                                    {{item.Days}}
+
+                                                </td>
+                                                <td>
+                                                    {{item.Charges}}
+
+                                                </td>
+                                                <td>
+                                                    {{item.AppliedOn}}
+
+                                                </td>
+
+                                            </tr>
+
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="single-tour-gallery">
+                            <h3>POPULAR PACKAGES</h3>
+                            <div class="single-tour-slider slick-initialized slick-slider slick-dotted">
+                                <app-packageslider [configType]="'other'"></app-packageslider>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" id="inquiryformsection">
+                    <app-packageenquiry></app-packageenquiry>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- subscribe section html start -->
+    <section class="subscribe-section" style="background-image: url(assets/images/img16.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="section-heading section-heading-white">
+                        <h5 class="dash-style">HOLIDAY PACKAGE OFFER</h5>
+                        <h2>HOLIDAY SPECIAL 10% OFF !</h2>
+                        <h4>Sign up now to recieve hot special offers and information about the best tour packages, updates and discounts !!</h4>
+                        <div class="newsletter-form">
+                            <form>
+                                <input type="email" name="s" placeholder="Your Email Address">
+                                <input type="submit" name="signup" value="SIGN UP NOW!">
+                            </form>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo. Eaque adipiscing, luctus eleifend temporibus occaecat luctus eleifend tempo ribus.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- subscribe html end -->
+</ng-container>

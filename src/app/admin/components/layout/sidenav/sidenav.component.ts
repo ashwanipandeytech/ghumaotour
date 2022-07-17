@@ -12,7 +12,7 @@ export class SidenavComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    this._isAdmin = false;
+    this._isAdmin = true;
     let role = localStorage.getItem('roleID');
     if(role === "1"){
         this._isAdmin = true;

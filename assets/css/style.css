@@ -750,13 +750,14 @@ table {
     font-size: 15px;
 }
 
-table thead tr {
+
+/* table thead tr {
     background-color: #262626;
 }
 
 table thead tr th {
     color: #383838;
-}
+} */
 
 table.table {
     color: #737373;

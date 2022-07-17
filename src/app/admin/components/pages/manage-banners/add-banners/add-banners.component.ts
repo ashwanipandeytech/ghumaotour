@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import * as $ from 'jquery';
 
 import { AdminService } from 'src/app/admin/services/admin.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-add-banners',
@@ -21,7 +22,7 @@ export class AddBannersComponent implements OnInit {
     error:Boolean;
     errorMessage:String;
 
-    constructor(private adminApiService: AdminService, private router: Router) {}
+    constructor(private adminApiService: AdminService, private router: Router,private apiservice:ApiService) {}
 
     ngOnInit(): void {
         this.initAddBannerForm();
@@ -46,17 +47,20 @@ export class AddBannersComponent implements OnInit {
     }
 
     addBannerAction(){
-        if (this.addBannerFrom.valid) {
-            if(this.uploadImage) {
-                this.imageUpload()
-            }
-            else {
-                this.addBannerFrom.patchValue({
-                    Image: $('#ImageUrl').val().toString()
-                });
 
-                this.addBanner();
-            }
+        if (this.addBannerFrom.valid) {
+
+          this.addBanner();
+            // if(this.uploadImage) {
+            //     this.imageUpload()
+            // }
+            // else {
+            //     this.addBannerFrom.patchValue({
+            //         Image: $('#ImageUrl').val().toString()
+            //     });
+
+            //     this.addBanner();
+            // }
         } else {
             this.addBannerFrom.markAsTouched();
             this.error = true;
@@ -68,8 +72,13 @@ export class AddBannersComponent implements OnInit {
         // Get Stored token
         let token = localStorage.getItem('token');
 
-        this.adminApiService.addBanner(this.addBannerFrom.value, token).subscribe(
-            result => {
+        var formData = new FormData();
+        formData.append('BannerTitle', this.addBannerFrom.get('BannerTitle').value);
+        formData.append('BannerSubTitle', this.addBannerFrom.get('TitleSlug').value);
+        formData.append('Image', this.imageUploadForm.get('FileSource').value);
+
+        this.apiservice.callApiWithBearer(formData, 'banner/add').subscribe(
+            (result:any) => {
                 //console.log(result);
                 if(result.success){
                     Swal.fire({

@@ -113,98 +113,43 @@
                         </li> -->
 
 
+                        <ng-container *ngIf="MenuList!=''">
 
-                        <li class="menu-item-has-children">
-                            <a href="#">India Tour
-                          </a>
-                            <ul>
-                                <li>
-                                    <a routerLink="/JK-tour-package01">Amazing Kashmir </a>
-                                </li>
-                                <li>
-                                    <a routerLink="/HP-tour-package01"> Beautiful Shimla & Manali </a>
-                                </li>
-                                <!--
-                                  <li>
-                                    <a routerLink="/colorful-rajasthan">Colourful Rajasthan </a>
-                                </li>
-                                  <li>
-                                    <a routerLink="/amazing-rajasthan">Amazing Rajasthan</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/rangilo-rajasthan">Rangilo Rajasthan with Sand Dunes</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/rajasthan-sandunes">Rajasthan with Sand Dunes</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/rajasthan-ajmer-pushkar">Golden Triangle tour with Ajmer &amp; Pushkar</a>
-                                </li>
+                            <li class="menu-item-has-children" *ngFor="let item of MenuList">
+                                <a href="#">{{item.CategoryName}}
+  </a>
+                                <ul *ngIf="item.Packages!=''">
+                                    <li *ngFor="let innerItem of item.Packages">
+                                        <a [routerLink]="['package/'+innerItem.PackageSlug]">{{innerItem.PackageName}} </a>
+                                    </li>
+
+                                    <!--
+          <li>
+            <a routerLink="/colorful-rajasthan">Colourful Rajasthan </a>
+        </li>
+          <li>
+            <a routerLink="/amazing-rajasthan">Amazing Rajasthan</a>
+        </li>
+        <li>
+            <a routerLink="/rangilo-rajasthan">Rangilo Rajasthan with Sand Dunes</a>
+        </li>
+        <li>
+            <a routerLink="/rajasthan-sandunes">Rajasthan with Sand Dunes</a>
+        </li>
+        <li>
+            <a routerLink="/rajasthan-ajmer-pushkar">Golden Triangle tour with Ajmer &amp; Pushkar</a>
+        </li>
 
 
-                                <li>
-                                    <a routerLink="/rajasthan-ranthambore-jungle-safari">Golden Triangle tour with Ranthambore Jungle Safari</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/beautiful-udaipur">Beautiful Udaipur with Mount Abu</a>
-                                </li> -->
-                            </ul>
-                        </li>
-                        <li class="menu-item-has-children">
-                            <a href="#">International Tour</a>
-                            <!-- <ul>
-                              <li>
-                                  <a href="about.html">About</a>
-                              </li>
-                              <li>
-                                  <a href="service.html">Service</a>
-                              </li>
-                              <li>
-                                  <a href="career.html">Career</a>
-                              </li>
-                              <li>
-                                  <a href="career-detail.html">Career Detail</a>
-                              </li>
-                              <li>
-                                  <a href="tour-guide.html">Tour Guide</a>
-                              </li>
-                              <li>
-                                  <a href="gallery.html">Gallery</a>
-                              </li>
-                              <li>
-                                  <a href="single-page.html">Single Page</a>
-                              </li>
-                              <li>
-                                  <a href="faq.html">FAQ Page</a>
-                              </li>
-                              <li>
-                                  <a href="testimonial-page.html">Testimonial Page</a>
-                              </li>
-                              <li>
-                                  <a href="popup.html">Popup</a>
-                              </li>
-                              <li>
-                                  <a href="search-page.html">Search Page</a>
-                              </li>
-                              <li>
-                                  <a href="404.html">404 Page</a>
-                              </li>
-                              <li>
-                                  <a href="comming-soon.html">Comming Soon</a>
-                              </li>
-                              <li>
-                                  <a href="contact.html">Contact</a>
-                              </li>
-                              <li>
-                                  <a href="wishlist-page.html">Wishlist</a>
-                              </li>
-                          </ul> -->
-                        </li>
-                        <li class="menu-item-has-children">
-                            <a href="#">Holiday Packages
-                          </a>
-
-                        </li>
+        <li>
+            <a routerLink="/rajasthan-ranthambore-jungle-safari">Golden Triangle tour with Ranthambore Jungle Safari</a>
+        </li>
+        <li>
+            <a routerLink="/beautiful-udaipur">Beautiful Udaipur with Mount Abu</a>
+        </li> -->
+                                </ul>
+                            </li>
+                        </ng-container>
 
 
                     </ul>

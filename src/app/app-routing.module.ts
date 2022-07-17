@@ -10,6 +10,20 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
 
   },
+
+  {
+    path: 'package',
+    pathMatch: 'full',
+    loadChildren: () => import('./packages/packages.module').then(m => m.PackagesModule),
+
+  },
+  {
+    path: 'package/:slug',
+    pathMatch: 'full',
+    loadChildren: () => import('./packages/packages.module').then(m => m.PackagesModule),
+
+  },
+
   {
     path: 'colorful-rajasthan',
     pathMatch: 'full',

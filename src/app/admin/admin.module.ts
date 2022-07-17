@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-
+import { FormsModule } from '@angular/forms';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminAppComponent } from './admin.component';
 
@@ -54,6 +54,10 @@ import { ViewFeedbackComponent } from './components/pages/manage-feedback/view-f
 import { AddUserComponent } from './components/pages/manage-user/add-user/add-user.component';
 import { EditUserComponent } from './components/pages/manage-user/edit-user/edit-user.component';
 import { DatePipe } from '@angular/common';
+import { EditTestimonialComponent } from './components/pages/manage-testimonial/edit-testimonial/edit-testimonial.component';
+import { ManagePackagetypesComponent } from './components/pages/manage-packagetypes/manage-packagetypes.component';
+import { ManageAddpackagetypeComponent } from './components/pages/manage-packagetypes/manage-addpackagetype/manage-addpackagetype.component';
+import { ManageEditpackagetypeComponent } from './components/pages/manage-packagetypes/manage-editpackagetype/manage-editpackagetype.component';
 
 @NgModule({
     declarations: [
@@ -90,6 +94,7 @@ import { DatePipe } from '@angular/common';
         ManageFeedbackComponent,
         ManageTestimonialComponent,
         AddTestimonialComponent,
+        EditTestimonialComponent,
         ManageItineraryComponent,
         AddItineraryComponent,
         EditItineraryComponent,
@@ -98,7 +103,10 @@ import { DatePipe } from '@angular/common';
         AddEnquiryComponent,
         ViewFeedbackComponent,
         AddUserComponent,
-        EditUserComponent
+        EditUserComponent,
+        ManagePackagetypesComponent,
+        ManageAddpackagetypeComponent,
+        ManageEditpackagetypeComponent
     ],
     imports: [
         BrowserModule,
@@ -107,7 +115,8 @@ import { DatePipe } from '@angular/common';
         HttpClientModule,
         DataTablesModule,
         ReactiveFormsModule,
-        SweetAlert2Module.forRoot()
+        SweetAlert2Module.forRoot(),
+        FormsModule
     ],
     providers: [
         AdminService,

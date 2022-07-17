@@ -9,7 +9,7 @@ import { ApiService } from 'src/app/services/api.service';
   template: `
     <div class="sidebar-container">
         <app-sidenav></app-sidenav>
-            
+
         <div class="right-content min-vh-100">
             <div class="container-fluid">
                 <app-page-title [title]="'Manage Package'" [icon]="'fa-plus'" [button]="'Add Package'" [url]="'/admin/packages/add'"></app-page-title>
@@ -21,22 +21,35 @@ import { ApiService } from 'src/app/services/api.service';
                         <table *ngIf="packages" datatable class="row-border hover">
                             <thead>
                                 <tr>
-                                    <th>Title</th>
+                                    <th>Package Name</th>
                                     <th>Price</th>
                                     <th>Days</th>
-                                    <th width="255px">Actions</th>
+                                    <th>Package Type</th>
+
+                                    <th >Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let package of packages">
-                                    <td>{{ package.Title }}</td>
+                                    <td>{{ package.PackageName }}
+                                    </td>
+
                                     <td>{{ package.Price }}</td>
                                     <td>{{ package.NoOfDays }}</td>
+
+                                    <td><div class="row">
+                                    <div class="col-12" *ngFor="let item of package.Type">
+                                    {{item.label}}
+                                    </div>
+                                    </div></td>
+
                                     <td>
-                                        <a class="btn btn-primary btn-sm me-2" [routerLink]=" '/admin/itinerary/' + package.PackageId + '/manage/'"><i class="fas fa-plus me-2"></i> Itinerary</a>
-                                        <a class="btn btn-secondary btn-sm me-2" [routerLink]=" ['/admin/packages/edit/' + package._id] "><i class="fas fa-pen me-2"></i> Edit</a>
-                                        <button class="btn btn-danger btn-sm"
-                                            [swal]="{ 
+
+
+                                    <a href="package/{{package['PackageSlug']}}" target="_blank" class="btn btn-secondary btn-sm me-2" > See Package</a>
+                                        <a class="btn btn-secondary btn-sm me-2 ml-2" [routerLink]=" ['/admin/packages/edit/' + package.PackageId] "><i class="fas fa-pen me-2"></i> Edit</a>
+                                        <button class="btn btn-danger btn-sm ml-2"
+                                            [swal]="{
                                                 icon: 'warning',
                                                 title: 'Delete Package',
                                                 html: 'Are you sure you want to delete <br/>&quot;<strong>' + package.Title + '</strong>&quot;',
@@ -45,16 +58,16 @@ import { ApiService } from 'src/app/services/api.service';
                                                 showCancelButton: true,
                                                 cancelButtonColor: '#535C68'
                                             }"
-                                            (confirm)="deletePackageAction(package._id)"
+                                            (confirm)="deletePackageAction(package.PackageId)"
                                         ><i class="fas fa-trash-alt me-2"></i> Delete</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        </div> 
+                        </div>
                         </div>
                     </div>
-                </div>                
+                </div>
             </div>
         </div>
     </div>
@@ -63,8 +76,8 @@ import { ApiService } from 'src/app/services/api.service';
   ]
 })
 export class ManagePackagesComponent implements OnInit {
-    packages: Package[];
-    
+    packages: any;
+
     constructor(private apiService: ApiService, private adminApiService: AdminService) { }
 
     ngOnInit(): void {
@@ -72,19 +85,29 @@ export class ManagePackagesComponent implements OnInit {
     }
 
     loadPackages(){
-        this.apiService.getAllPackages().subscribe(response => {
-            // console.log(response);
-            
-            this.packages = response;
+             this.apiService.callApiWithBearer('','package').subscribe((response:any) => {
+          if(response.success && response.data && response.data!=''){
+            this.packages = response.data;
+            this.packages.map(item=>{
+              item.Type=JSON.parse(item.Type)
+            })
+            //this.packages.Type=JSON.parse(response.data.Type)
+          }else{
+            this.packages = [];
+          }
+
         });
     }
 
     deletePackageAction(packageId){
-        // Get Stored token
-        let token = localStorage.getItem('token');
-
-        this.adminApiService.deletePackage(packageId, token).subscribe(response => {
+      let requestPayload={
+        PackageId:packageId
+      }
+        this.apiService.callApiWithBearer(requestPayload, 'package/remove').subscribe((response:any) => {
+          if(response.success){
             this.loadPackages();
+          }
+
         });
     }
 }

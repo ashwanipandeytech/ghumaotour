@@ -7,6 +7,7 @@ import { AdminService } from 'src/app/admin/services/admin.service';
 import { Category } from 'src/app/models/category.model';
 import { Package } from 'src/app/models/package.model';
 import { ApiService } from 'src/app/services/api.service';
+import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -21,6 +22,8 @@ export class EditPackageComponent implements OnInit {
     categories: Category[];
     CategoryIdDefaultValue: Number;
     imageUploadForm: FormGroup;
+    imageUploadInnerForm: FormGroup;
+    imageUploadSliderForm:FormGroup
     imageSrc: any;
     imgs : any;
     strtDate : Date;
@@ -30,19 +33,37 @@ export class EditPackageComponent implements OnInit {
     error: Boolean;
     errorMessage: String;
     packageId: String;
+    packageData: any;
+    packageType:any
+  imageInnerSrc: string | ArrayBuffer;
+  imageSliderImageSrc: string | ArrayBuffer;
+  packages: any;
 
     constructor(private apiService: ApiService, private adminApiService: AdminService, private router: Router, private route: ActivatedRoute) {}
 
     ngOnInit(): void {
-        this.apiService.getAllCategories().subscribe(response => {
-            this.categories = response;
-            this.CategoryIdDefaultValue = 0;
-        });
+      this.apiService.callApiWithBearer('','category').subscribe((response:any) => {
+        if(response.success && response.data && response.data!=''){
+          this.categories = response.data;
+        }else{
+          this.categories = [];
+        }
+
+      });
+
+      this.apiService.callApiWithBearer('', 'package').subscribe((response: any) => {
+        if (response.success && response.data && response.data != '') {
+          this.packages = response.data;
+        } else {
+          this.packages = []
+        }
+
+      });
         this.packageId  = this.route.snapshot.paramMap.get('_id');
         this.initEditPackageForm();
         this.intiImageUploadForm();
         this.error = false;
-        this.uploadImage = false;
+        this.uploadImage = true;
     }
 
     intiImageUploadForm() {
@@ -50,72 +71,338 @@ export class EditPackageComponent implements OnInit {
             Image: new FormControl('', [Validators.required]),
             FileSource: new FormControl('')
         });
+
+        this.imageUploadInnerForm =new FormGroup({
+          InnerImage: new FormControl('', [Validators.required]),
+          FileSource: new FormControl('')
+        });
+        this.imageUploadSliderForm = new FormGroup({
+          SliderImage: new FormControl('', [Validators.required]),
+          FileSource: new FormControl('')
+        });
     }
+
 
     initEditPackageForm() {
-        this.editPackageForm = new FormGroup({
-            Code: new FormControl('', [Validators.required, Validators.minLength(6)]),
-            Title: new FormControl('', [Validators.required, Validators.minLength(6)]),
-            PackageSlug: new FormControl('', [Validators.required, Validators.minLength(6)]),
-            StartDate: new FormControl('', [Validators.required]),
-            CategoryId: new FormControl('', [Validators.required, Validators.pattern(/[1-9]/)]),
-            Price: new FormControl('', [Validators.required]),
-            NoOfDays: new FormControl('', [Validators.required]),
-            Inclusions: new FormControl('', [Validators.required, Validators.minLength(2)]),
-            Exclusions: new FormControl('', [Validators.required, Validators.minLength(2)]),
-            Extensions: new FormControl('', [Validators.required, Validators.minLength(2)]),
-            Executed: new FormControl('', [Validators.required, Validators.minLength(2)]),
-            Description: new FormControl('', [Validators.required]),
-            Type: new FormControl('', [Validators.required, Validators.pattern(/[1-9]/)]),
-            Image: new FormControl('')
+      this.packageData = {
+        Code: '',
+        Title: '',
+        PackageName: '',
+        PackageSlug: '',
+        StartDate: '',
+        CategoryId: '0',
+        Price: '',
+        NoOfDays: '',
+        NumberOfPerson: '',
+        Priority: '',
+        IsActive: false,
+        isMenu:false,
+        Note:'',
+        Programs: [
+          {
+            "Day": 1,
+            "Title": '',
+            "Description": ''
+          }
+        ],
+        Inclusions: [
+          {
+            "text": '',
+          }
+        ],
+        Exclusions: [
+          {
+            "text": '',
+          }
+        ],
+
+        Terms: [
+          {
+            "text": '',
+          }
+        ],
+         Cancellation: [{
+          "Days": '',
+          "Charges": '',
+          "AppliedOn": ""
+        }],
+
+        ShortDescription: '',
+        Description: '',
+        Type: '0',
+        Image: ''
+      };
+
+      this.packageType=[{
+        id:'0',
+        label:'Popular'
+      },
+      {
+        id:'1',
+        label:'Domestic'
+      },
+      {
+        id:'2',
+        label:'International'
+      },
+      {
+        id:'3',
+        label:'Pilgrimage'
+      },
+      {
+        id:'4',
+        label:'Honeymoon Special'
+      },
+      {
+        id:'5',
+        label:'Special Offer'
+      },
+      {
+        id:'6',
+        label:'Top Notch '
+      },
+      {
+        id:'7',
+        label:'Other'
+      },
+
+    ]
+        let token = localStorage.getItem('token');
+        let requestPayload= {
+          PackageId :this.packageId
+}
+
+        this.apiService.callApiWithBearer(requestPayload, 'package/details').subscribe((response:any) => {
+
+       //   this.packageData=response.data;
+          //let resSTR = JSON.parse(response.data);
+          this.packageData=response.data;
+          this.packageData.Programs=JSON.parse(response.data.Programs)
+          this.packageData.Inclusions=JSON.parse(response.data.Inclusions)
+          this.packageData.Exclusions=JSON.parse(response.data.Exclusions)
+          this.packageData.Terms=JSON.parse(response.data.Terms)
+          this.packageData.Type=JSON.parse(response.data.Type)
+
+          this.packageType.map((item)=>{
+            if(this.packageData.Type.findIndex((innerItem:any)=>item.id==innerItem.id)>-1){
+              item.isSelected=true;
+            }
+          })
+          console.info(this.packageType)
+
+          this.packageData.Cancellation=JSON.parse(response.data.Cancellation)
+
+          this.packageData.IsActive = (this.packageData.IsActive == 'Yes') ? true : false;
+          this.packageData.isMenu = (this.packageData.isMenu == 'Yes') ? true : false;
+          console.info(response.data.Image)
+
+          // this.imgs = response['Images'];
+            this.imageSrc = environment.PACKAGE_FOLDER+response.data.Image+"?v="+Math.random();
+            this.imageInnerSrc= environment.PACKAGE_FOLDER+response.data.InnerImage+"?v="+Math.random();
+            this.imageSliderImageSrc= environment.PACKAGE_FOLDER+response.data.SliderImage+"?v="+Math.random();
+            // this.strtDate = new Date(response.StartDate);
+            // this.editPackageForm.patchValue(response);
         });
-        let token = localStorage.getItem('token');
-        this.adminApiService.getPackageById(token, this.packageId).subscribe(response => {
-            this.imgs = response['Images'];
-            this.imageSrc = this.imgs[0].Image;
-            this.strtDate = new Date(response.StartDate);
-            this.editPackageForm.patchValue(response);
-        });  
+    }
+    checkboxAction(event,data){
+
+      console.info(event.target.checked);//return false
+      if(event.target.checked){
+        if(this.packageData.Type.findIndex((item:any)=>item.id==data.id)<0){
+          this.packageData.Type.push(data);
+          console.info('checked')
+        }
+      }else{
+        this.packageData.Type.splice(this.packageData.Type.indexOf(data.id),1)
+        console.info('unchecked')
+      }
+      console.info(this.packageData.Type)
+    }
+    addMore(type) {
+      if (type == 'program') {
+        this.packageData.Programs.push({
+          "Day": this.packageData.Programs.length + 1,
+          "Title": '',
+          "Description": ''
+        })
+      }
+     else if (type == 'Inclusions') {
+        this.packageData.Inclusions.push({
+          "text": '',
+        })
+
+      }
+     else if (type == 'Exclusions') {
+        this.packageData.Exclusions.push({
+          "text": '',
+        })
+
+      }else if (type == 'Cancellation'){
+        this.packageData.Cancellation.push({
+          "Days": '',
+          "Charges": '',
+          "AppliedOn": ""
+        })
+      }
+      else if (type == 'Terms'){
+        this.packageData.Terms.push({
+          "text": '',
+        })
+      }
+
     }
 
+    remove(type,index) {
+      if (type == 'program') {
+        this.packageData.Programs.splice(index,1)
+      }
+      else if (type == 'Inclusions') {
+        this.packageData.Inclusions.splice(index,1)
+      }
+      else if (type == 'Exclusions') {
+        console.info(this.packageData.Exclusions)
+        this.packageData.Exclusions.splice(index,1)
+
+      } else if (type == 'Cancellation') {
+        this.packageData.Cancellation.splice(index,1)
+      }
+      else if (type == 'Terms') {
+        this.packageData.Terms.splice(index,1)
+      }
+
+    }
     editPackageAction() {
-        if (this.editPackageForm.valid) {
-            if(this.uploadImage) {
-                this.imageUpload()
-            }
-            else {
-                this.editPackageForm.patchValue({
-                    Image: $('#ImageUrl').val().toString()
-                });
 
-                this.editPackage();
-            }
-        } else {
-            this.editPackageForm.markAsTouched();
-            this.error = true;
-            this.errorMessage = 'Form Validation Error';
-        }
+
+
+
+
+
+    const NoOfDays = Number(this.packageData.NoOfDays);
+    const NumberOfPerson = Number(this.packageData.NumberOfPerson);
+    const price = Number(this.packageData.Price);
+
+    console.info(Number.isInteger(NumberOfPerson), Number(NumberOfPerson) < 0, NumberOfPerson)
+
+
+    if (this.packageData.Code == '') {
+      this.error = true;
+      this.errorMessage = 'Please Enter Package Code';
+      console.info('here')
+      return false;
+    }
+    else if (this.packageData.Code != '' && this.packages != '' && this.packages.findIndex((item: any) => item.Code == this.packageData.Code && item.PackageId!=this.packageId) > -1) {
+      this.errorMessage = 'Package Code Already Exist';
+      this.error = true;
+      return false;;
     }
 
-    editPackage() {
-        // Get Stored token
-        let token = localStorage.getItem('token');
-        if(!this.editPackageForm.value.Image){
-            this.editPackageForm.value.Image = this.imageSrc;
-        }
-        this.adminApiService.editPackage(this.editPackageForm.value, token, this.packageId).subscribe(
-            result => {
+    if (this.packageData.PackageName == '') {
+      this.errorMessage = 'Please Enter Package Name';
+      this.error = true;
+      return false;;
+    }
+    else if (this.packageData.PackageName != '' && this.packages != '' && this.packages.findIndex((item: any) => item.PackageName == this.packageData.PackageName && item.PackageId!=this.packageId) > -1) {
+      this.errorMessage = 'Package Name Code Already Exist';
+      this.error = true;
+      return false;;
+    }
+
+    else if (this.packageData.PackageSlug == '') {
+      this.errorMessage = 'Please Enter Package Slug';
+      this.error = true;
+      return false;;
+    }
+    else if (this.packageData.PackageSlug != '' && this.packages != '' && this.packages.findIndex((item: any) => item.Code == this.packageData.PackageSlug && item.PackageId!=this.packageId) > -1) {
+      this.errorMessage = 'Package Code Already Exist';
+      this.error = true;
+      return false;;
+    }
+
+    else if (this.packageData.Title == '') {
+      this.errorMessage = 'Please Enter Package Title';
+      this.error = true;
+      return false;;
+    }
+    else if (this.packageData.Title != '' && this.packages != '' && this.packages.findIndex((item: any) => item.Title == this.packageData.Title && item.PackageId!=this.packageId) > -1) {
+      this.errorMessage = 'Package Title Already Exist';
+      this.error = true;
+      return false;;
+    }
+
+    else if (this.packageData.CategoryId ==0) {
+      this.errorMessage = 'Package Select Category';
+      this.error = true;
+      return false;;
+    }
+
+    else if (this.packageData.Type == '') {
+      this.errorMessage = 'Package Select Package Type';
+      this.error = true;
+      return false;;
+    }
+
+
+    else if (this.packageData.ShortDescription == '') {
+      this.errorMessage = 'Please Enter Short Description ';
+      this.error = true;
+      return false;
+    }
+
+    else if (this.packageData.Description == '') {
+      this.errorMessage = 'Please Enter Long Description ';
+      this.error = true;
+      return false;
+    }
+
+    else if (Number.isInteger(NumberOfPerson) && Number(NumberOfPerson) < 0 || isNaN(NumberOfPerson)) {
+
+      this.errorMessage = 'Please Enter Valid No. Of Person ';
+      this.error = true;
+      return false;
+    }
+
+    else if (Number.isInteger(price) && Number(price) < 0 || isNaN(NumberOfPerson)) {
+
+      this.errorMessage = 'Please Enter Valid Price ';
+      this.error = true;
+      return false;
+    }
+
+    else if (Number.isInteger(NoOfDays) && Number(NoOfDays) < 0 || isNaN(NumberOfPerson)) {
+      this.errorMessage = 'Please Enter Valid No. Of Days ';
+      this.error = true;
+      return false;
+    }
+      this.updatePackage();return false;
+
+    }
+
+    updatePackage() {
+
+    let data = JSON.parse(JSON.stringify(this.packageData));
+    data.IsActive = (data.IsActive == true) ? 'Yes' : 'No';
+    data.isMenu = (data.isMenu == true) ? 'Yes' : 'No';
+
+    delete data.image;
+    delete data.Image;
+    delete data.InnerImage;
+    delete data.SliderImage;
+        this.apiService.callApiWithBearer(data,'package/update').subscribe(
+            (result:any) => {
                 if(result.success){
                     Swal.fire({
-                        position: 'top-end',  
-                        icon: 'success',  
-                        title: 'Package Created!',  
-                        showConfirmButton: false,  
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Package Updated!',
+                        showConfirmButton: false,
                         timer: 1500
-                    }); 
-                    setTimeout(() => {
-                        this.router.navigate(['/admin/packages']);
-                    }, 1800);
+                    });
+
+                    //console.info(this.imageUploadForm.get('FileSource').value)
+                    if (this.uploadImage ) {
+                      this.imageUpload()
+                    }
                 }
                 this.error = false;
             },
@@ -132,55 +419,82 @@ export class EditPackageComponent implements OnInit {
     }
 
     imageUpload() {
-        // Get Stored token
-        let token = localStorage.getItem('token');
+      // Get Stored token
+      let token = localStorage.getItem('token');
 
-        if (this.imageUploadForm.valid) {
-            var formData = new FormData();
-            formData.append('Image', this.imageUploadForm.get('FileSource').value);
+     // if (this.imageUploadForm.valid) {
+        var formData = new FormData();
+        formData.append('PackageId', this.packageData.PackageId);
+        formData.append('Code', this.packageData.Code);
+        formData.append('Image', this.imageUploadForm.get('FileSource').value||'');
+        formData.append('InnerImage', this.imageUploadInnerForm.get('FileSource').value||'');
+        formData.append('SliderImage', this.imageUploadSliderForm.get('FileSource').value||'');
+        this.apiService.callApiWithBearer(formData, 'package/upload').subscribe(
+          (result:any) => {
+            if (result.success) {
+              setTimeout(() => {
+                this.router.navigate(['/admin/packages']);
+              }, 1800);
 
-            this.adminApiService.uploadImage(formData, token).subscribe(
-                result => {
-                    if (result.type === HttpEventType.Response) {
-                        this.editPackageForm.patchValue({
-                            Image: result.body.toString()
-                        });
 
-                        this.editPackage();
-                    }
 
-                    if (result.type === HttpEventType.UploadProgress) {
-                        const percentDone = Math.round(100 * result.loaded / result.total);
-                        //console.log('Progress ' + percentDone + '%');
-                    }
-                },
-                error => {
-                    this.error = true;
-                    this.errorMessage = error.error;
-                }
-            );
-        } else {
-            this.imageUploadForm.markAsTouched();
+            }
+
+
+
+          },
+          error => {
             this.error = true;
-            this.errorMessage = 'Image not selected! Please select the image.';
-        }
+            this.errorMessage = error.error;
+          }
+        );
+      // } else {
+      //   this.imageUploadForm.markAsTouched();
+      //   this.error = true;
+      //   this.errorMessage = 'Image not selected! Please select the image.';
+      // }
     }
 
-    onFileChange(event) {
-        if (event.target.files.length > 0) {
-            this.uploadImage = true;
-            const file = event.target.files[0];
+    onFileChange(event, type) {
+      if (event.target.files.length > 0) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        if (type == 'homeBanner') {
+          this.imageUploadForm.patchValue({
+            FileSource: file
+          });
+          this.packageData.image = file;
+          reader.onload = e => this.imageSrc = reader.result;
+          reader.readAsDataURL(file);
+        } else if(type=='InnerImage') {
 
-            this.imageUploadForm.patchValue({
-                FileSource: file
-            });
+          this.imageUploadInnerForm.patchValue({
+            FileSource: file
+          });
+          this.packageData.InnerImage = file;
 
-            const reader = new FileReader();
-            reader.onload = e => this.imageSrc = reader.result;
-            reader.readAsDataURL(file);
+          reader.onload = e => this.imageInnerSrc = reader.result;
+          reader.readAsDataURL(file);
         }
-    }
 
+        else if(type=='SliderImage') {
+
+          this.imageUploadSliderForm.patchValue({
+            FileSource: file
+          });
+          this.packageData.SliderImage = file;
+
+          reader.onload = e => this.imageSliderImageSrc = reader.result;
+          reader.readAsDataURL(file);
+        }
+
+
+
+
+
+
+      }
+    }
     enableDisableImageUploadAction(){
         if($('#enableUpload').prop('checked')){
             $('#uploadImageCard').show();
@@ -191,5 +505,14 @@ export class EditPackageComponent implements OnInit {
             $('#uploadUrlCard').show();
             this.uploadImage = false;
         }
+    }
+    goToPackage(){
+      console.info(window.location.hostname);//return false;
+      this.router.navigate(['package/'+this.packageData['PackageSlug']])
+      .then(() => {
+       // window.open(window.location.href+'/'+this.packageData['PackageSlug'], '_blank');
+        window.location.reload();
+      });
+
     }
 }

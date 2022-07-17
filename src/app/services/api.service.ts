@@ -12,15 +12,52 @@ import { Testimonial } from '../models/testimonial.model';
 import { Seo } from '../models/seo.model';
 
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ApiService {
-    apiURL:string = "https://omshubhyatra.in/api";
-    //apiURL:string = "http://localhost:3000/api";
+  apiURL:string = environment.API_URL;
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
+
+  httpOptionsBearerToken = {
+    headers: new HttpHeaders({
+
+       'Accept': 'application/json,text/plain, */*',
+       'Authorization':'Bearer '+localStorage.getItem('token')
+
+    })
+  };
+
+
 
     constructor(private http:HttpClient) {}
+
+
+
+    callApi(data: any, apiEndPoint: string) {
+      const requestPayload = data
+      const consolecolor = 'font-size:12px; font-weight: bold;padding:3px 2px;color:';
+      console.log('%c' + apiEndPoint + ':', consolecolor + 'green');
+      console.dir(apiEndPoint + ':' + JSON.stringify(requestPayload, null, 2));
+      return this.http.post(this.apiURL+apiEndPoint, requestPayload, this.httpOptions);
+    }
+
+    callApiWithBearer(data: any, apiEndPoint: string) {
+      const requestPayload = data
+      const consolecolor = 'font-size:12px; font-weight: bold;padding:3px 2px;color:';
+      console.log('%c' + apiEndPoint + ':', consolecolor + 'green');
+      console.dir(apiEndPoint + ':' + JSON.stringify(requestPayload, null, 2));
+      return this.http.post(this.apiURL+apiEndPoint, requestPayload, this.httpOptionsBearerToken);
+    }
+
+
+
 
     getAllDestinations(): Observable<Destination[]> {
         return this.http.get<Destination[]>(

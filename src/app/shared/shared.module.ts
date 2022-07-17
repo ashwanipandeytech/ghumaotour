@@ -8,11 +8,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataService } from '../services/data.service';
 import {HttpClientModule} from '@angular/common/http'; // add this line
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { TestimonialComponent } from './testimonial/testimonial.component';
 
 @NgModule({
   declarations: [
     PackageenquiryComponent,
-    PackagesliderComponent
+    PackagesliderComponent,
+    TestimonialComponent
   ],
   imports: [
     CommonModule,
@@ -25,6 +27,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
   exports: [
     PackageenquiryComponent,
     PackagesliderComponent,
+    TestimonialComponent,
     SlickCarouselModule,
     FormsModule,
     HttpClientModule,

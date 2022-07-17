@@ -2,11 +2,12 @@ import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import Swal from 'sweetalert2'; 
+import Swal from 'sweetalert2';
 
 import { AdminService } from 'src/app/admin/services/admin.service';
 import { Category } from 'src/app/models/category.model';
 import { Observable } from 'rxjs';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-edit-categories',
@@ -36,14 +37,14 @@ export class EditCategoriesComponent implements OnInit {
     errorMessage:String;
     categoryId: string;
 
-    constructor(private adminApiService: AdminService, private router: Router, private route: ActivatedRoute) {}
+    constructor(private adminApiService: AdminService,private apiService:ApiService, private router: Router, private route: ActivatedRoute) {}
 
     ngOnInit(): void {
         this.categoryId  = this.route.snapshot.paramMap.get('categoryId');
         this.initEditCategoryForm();
         this.intiImageUploadForm();
         this.error = false;
-        this.uploadImage = false;            
+        this.uploadImage = false;
     }
 
     intiImageUploadForm() {
@@ -56,24 +57,39 @@ export class EditCategoriesComponent implements OnInit {
     initEditCategoryForm(){
         this.editCategoryFrom = new FormGroup({
             CategoryName: new FormControl('', [Validators.required, Validators.minLength(6)]),
-            CategorySlug: new FormControl('', [Validators.required, Validators.minLength(6)]),
-            StartingPrice: new FormControl('', [Validators.required]),
-            Keys: new FormArray([]),
+            isMenu:new FormControl(false),
+            IsActive:new FormControl(false),
             Description: new FormControl(''),
             Image: new FormControl('')
         });
         let token = localStorage.getItem('token');
-        this.adminApiService.getCategoryById(token, this.categoryId).subscribe(response => {
-            this.editCategoryFrom.patchValue(response[0], this.imageSrc = response[0].Image);
-            this.catKeys = response[0]['Keys'];
+        let requestPayload={
+          CategoryId : this.categoryId
 
-            this.catKeys.forEach((k) => {
-                $('#key-popular-' + k.Key.toLowerCase()).prop('checked',true);
-            });
+        }
+        this.apiService.callApiWithBearer(requestPayload,'category/details').subscribe((response:any) => {
+           // this.editCategoryFrom.patchValue(response.data, this.imageSrc = response.data.Image);
+
+            this.editCategoryFrom.patchValue({
+              CategoryName:response.data.CategoryName,
+              isMenu:(response.data.isMenu=='Yes')?true:false,
+              IsActive:(response.data.IsActive=='Yes')?true:false,
+              Description:response.data.Description,
+
+            })
+
+           // this.editCategoryFrom.set('CategoryName').value
+            // this.catKeys = response[0]['Keys'];
+
+            // this.catKeys.forEach((k) => {
+            //     $('#key-popular-' + k.Key.toLowerCase()).prop('checked',true);
+            // });
         });
     }
 
     editCategoryAction(){
+      this.editCategoryFrom.markAsUntouched();
+      this.editCategory();return false
         if (this.editCategoryFrom.valid) {
             if(this.uploadImage) {
                 this.imageUpload()
@@ -94,20 +110,33 @@ export class EditCategoriesComponent implements OnInit {
 
     editCategory(){
         // Get Stored token
-        let token = localStorage.getItem('token');
-        if(!this.editCategoryFrom.value.Image){
-            this.editCategoryFrom.value.Image = this.imageSrc;
+
+
+        var formData = new FormData();
+
+        formData.append('CategoryId', this.categoryId);
+        formData.append('CategoryName', this.editCategoryFrom.get('CategoryName').value);
+        formData.append('Description', this.editCategoryFrom.get('Description').value);
+        formData.append('IsActive', (this.editCategoryFrom.get('IsActive').value)?'Yes':'No');
+        formData.append('isMenu', (this.editCategoryFrom.get('isMenu').value)?'Yes':'No');
+        formData.append('CreatedBy', '0');
+        formData.append('StartingPrice', '0');
+        formData.append('Image', '0');
+        if(this.uploadImage && this.imageUploadForm.get('FileSource').value && this.imageUploadForm.get('FileSource').value!=''){
+          formData.append('Image', this.imageUploadForm.get('FileSource').value);
         }
-        this.adminApiService.editCategory(this.editCategoryFrom.value, token, this.categoryId).subscribe(
-            result => {
+
+
+        this.apiService.callApiWithBearer(formData, 'category/update').subscribe(
+            (result:any) => {
                 if(result.success){
                     Swal.fire({
-                        position: 'top-end',  
-                        icon: 'success',  
-                        title: 'Category Created!',  
-                        showConfirmButton: false,  
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Category Updated!',
+                        showConfirmButton: false,
                         timer: 1500
-                    }); 
+                    });
                     setTimeout(() => {
                         this.router.navigate(['/admin/categories']);
                     }, 1800);
@@ -176,29 +205,22 @@ export class EditCategoriesComponent implements OnInit {
         }
     }
 
-    checkboxAction(event){
-        const formArray: FormArray = this.editCategoryFrom.get('Keys') as FormArray;
 
-        /* Selected */
-        if(event.target.checked){
-            // edit a new control in the arrayForm
-            formArray.push(new FormControl(event.target.value));
-        }
-        /* unselected */
-        else{
-            // find the unselected element
-            let i: number = 0;
 
-            formArray.controls.forEach((ctrl: FormControl) => {
-                if(ctrl.value == event.target.value) {
-                    formArray.removeAt(i);
-                    return;
-                }
+    checkboxAction(event,type){
 
-                i++;
-            });
-        }
+
+      if(type=='isMenu'){
+
+
+      }
+      else if(type=='IsActive'){
+
+      }
+
     }
+
+
 
     enableDisableImageUploadAction(){
         if($('#enableUpload').prop('checked')){
