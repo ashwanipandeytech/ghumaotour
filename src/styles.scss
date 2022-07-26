@@ -1,12 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 @import 'scss/variables';
 // Bootstrap
 // @import '~bootstrap/scss/bootstrap';
 // @import '~swiper/swiper-bundle';
 @import 'scss/color';
 @import 'scss/base';
-@import 'scss/form';
+// @import 'scss/form';
 // @import 'scss/nav';
 @import 'scss/slider';
 @import 'scss/header-banner';
@@ -25,9 +26,15 @@
 @import 'scss/enquiry';
 @import 'scss/admin/sidebar-container';
 @import 'scss/admin/page-title';
+$theme-color-1:#3d4051;
+$theme-color-2: #ced4d4;
+$theme-color-3:#ffffff;
+$theme-color-4: #f6f6f6;
+$theme-color-5: #000;
+$theme-color-6: #dae1e2;
 .sticky {
     position: sticky;
-    top: 62px;
+    top: 77px;
     overflow: hidden;
     z-index: 1;
     background-color: #F56960;
@@ -54,4 +61,14 @@
 
 table thead tr {
     background-color: rgb(245, 245, 245) !important;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }

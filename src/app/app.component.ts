@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { Router, Event as RouterEvent, NavigationStart, NavigationEnd } from '@angular/router';
 
 @Component({
@@ -9,12 +9,18 @@ import { Router, Event as RouterEvent, NavigationStart, NavigationEnd } from '@a
 export class AppComponent {
   title = 'ghumao-web';
   allowaccess:boolean;
-  constructor(private router :Router) {
+  constructor(private router :Router, private renderer: Renderer2) {
 
     router.events.subscribe((event: RouterEvent) => {
 
       if (event instanceof NavigationEnd) {
         console.info(this.router.url)
+
+        if(this.router.url.includes("admin")){
+          this.renderer.addClass(document.body, 'mat-typography' );
+        }else{
+          this.renderer.removeClass(document.body, 'mat-typography' );
+        }
 
         if (this.router.url === '/login'|| this.router.url.includes("admin") ) {
 

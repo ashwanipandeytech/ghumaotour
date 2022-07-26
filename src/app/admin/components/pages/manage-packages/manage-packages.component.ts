@@ -22,7 +22,7 @@ import { ApiService } from 'src/app/services/api.service';
                             <thead>
                                 <tr>
                                     <th>Package Name</th>
-                                    <th>Price</th>
+
                                     <th>Days</th>
                                     <th>Package Type</th>
 
@@ -34,7 +34,7 @@ import { ApiService } from 'src/app/services/api.service';
                                     <td>{{ package.PackageName }}
                                     </td>
 
-                                    <td>{{ package.Price }}</td>
+
                                     <td>{{ package.NoOfDays }}</td>
 
                                     <td><div class="row">
@@ -43,7 +43,7 @@ import { ApiService } from 'src/app/services/api.service';
                                     </div>
                                     </div></td>
 
-                                    <td>
+                                    <td width="289px">
 
 
                                     <a href="package/{{package['PackageSlug']}}" target="_blank" class="btn btn-secondary btn-sm me-2" > See Package</a>
@@ -73,6 +73,7 @@ import { ApiService } from 'src/app/services/api.service';
     </div>
   `,
   styles: [
+    `@import '@angular/material/prebuilt-themes/indigo-pink.css'`
   ]
 })
 export class ManagePackagesComponent implements OnInit {

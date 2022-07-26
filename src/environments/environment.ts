@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  API_URL:'http://api.ghumao.in/api/',
-  CATEGORY_FOLDER:'http://api.ghumao.in/images/category/',
-  PACKAGE_FOLDER:'http://api.ghumao.in/images/package/',
-  TESTIMONIAL_FOLDER:'http://api.ghumao.in/images/testimonial/'
+  API_URL:'https://api.ghumao.in/api/',
+  CATEGORY_FOLDER:'https://api.ghumao.in/images/category/',
+  PACKAGE_FOLDER:'https://api.ghumao.in/images/package/',
+  TESTIMONIAL_FOLDER:'https://api.ghumao.in/images/testimonial/'
 
 };
 

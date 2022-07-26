@@ -18,6 +18,7 @@ import { environment } from 'src/environments/environment';
     providedIn: 'root'
 })
 export class ApiService {
+  authKey='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWNkZmU3Y2E5Nzg4MjU5MWI2OTdmMjY5Mzc1MjQwNmMzM2M5MWMyYzc5YmZhM2RmMDA4YWU0N2I3NzJjMmUxMjMzOWEzYmI4ZjRlOWViZmIiLCJpYXQiOjE2NTc4MTQzNjQuNzI4NjcxLCJuYmYiOjE2NTc4MTQzNjQuNzI4Njc4LCJleHAiOjE2ODkzNTAzNjQuNjU0OTU0LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.xfoKWzkeeg0g484Z4mkb3Ywzm2_4Qvj9boVFt6PD35GlKk2za3pmQmf4oxve_4_KmlO6Dj-r-zAjDsF3Spq0X_7ro8Y-FBHQbGyGL0ts5ltGdHXZETyXP7wtc7T95IRGZ9R1mAdsfA5eg8sKWJXzjeWVKRN130a8Bh9uzTQe_BOyIFD04W72gsBV4c7QFOxWX403rGfHHlBbW9OBfFiE6io39BwIRbhkMWgtYtiCSW08HSpKi7rQKspbFaVCYC49dw-PittynIfeXHFNzkJSWcZSa6r-acuRnNscs2OT_iDiQi3BA3J5sMowO_yevC6Hpry4D0kOq0EIBj04gOju9Lvtk1zmwjtXd80ztNXsj0kE0xBHPf2w5nmic49ntdHhR8-oyN_NDMUTUwII2H24F1_FGlY7tQ72WKt4DN_pFCfUwcEJt8HCwVvmnf0y6VzDcVmPsG0f0qxk4c89Lqq_MA-NpneBFPcfdChFKvBVh0h2Uh516M-qFCgGRzB3cD6xRuocSNCcFqonxMtn5ZrY1bQRT7aN0xaa-b-Xl3yv2e6j5QRPb9fz0dv0-yPQ_g8dOLWM0W-q4FNZHcHYh4Gzp9eddrCjyW2XQrgs-HoiIQezgg1BcVumpLgu8AB5dYTLSRw7ago2-rb-aHDPkoSX7RHJgYsWFveR2L-PmgbKa8s'
   apiURL:string = environment.API_URL;
   httpOptions = {
     headers: new HttpHeaders({
@@ -29,7 +30,7 @@ export class ApiService {
     headers: new HttpHeaders({
 
        'Accept': 'application/json,text/plain, */*',
-       'Authorization':'Bearer '+localStorage.getItem('token')
+       'Authorization':'Bearer '+(localStorage.getItem('token'))
 
     })
   };
@@ -48,7 +49,17 @@ export class ApiService {
       return this.http.post(this.apiURL+apiEndPoint, requestPayload, this.httpOptions);
     }
 
-    callApiWithBearer(data: any, apiEndPoint: string) {
+    callApiWithBearer(data: any, apiEndPoint: string,home=false) {
+      if(home){
+       this.httpOptionsBearerToken = {
+          headers: new HttpHeaders({
+
+             'Accept': 'application/json,text/plain, */*',
+             'Authorization':'Bearer '+this.authKey
+
+          })
+        };
+      }
       const requestPayload = data
       const consolecolor = 'font-size:12px; font-weight: bold;padding:3px 2px;color:';
       console.log('%c' + apiEndPoint + ':', consolecolor + 'green');

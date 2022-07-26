@@ -1,5 +1,5 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -10,11 +10,15 @@ import { ApiService } from 'src/app/services/api.service';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 
+import { NestedTreeControl } from '@angular/cdk/tree';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { TreeNode } from '../../../../models/model';
+
 @Component({
   selector: 'app-edit-package',
   templateUrl: './edit-package.component.html',
-  styles: [
-  ]
+  styleUrls: ['./edit-package.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class EditPackageComponent implements OnInit {
     package : Observable<Package>;
@@ -40,13 +44,24 @@ export class EditPackageComponent implements OnInit {
   packages: any;
 
     constructor(private apiService: ApiService, private adminApiService: AdminService, private router: Router, private route: ActivatedRoute) {}
+    treeControl = new NestedTreeControl<TreeNode>(node => node.children_recursive);
+    dataSource = new MatTreeNestedDataSource<TreeNode>();
+    selectedParent: any;
+    selectedParentStatus: any;
 
+    hasChild (_: number, node: TreeNode): boolean {
+      return (node.children_recursive.length > 0) ?    true :     false;
+     }
     ngOnInit(): void {
-      this.apiService.callApiWithBearer('','category').subscribe((response:any) => {
+
+      this.selectedParentStatus=[];
+      this.apiService.callApiWithBearer('','category/list').subscribe((response:any) => {
         if(response.success && response.data && response.data!=''){
           this.categories = response.data;
+          this.dataSource.data=response.data;
         }else{
           this.categories = [];
+          this.dataSource.data=[]
         }
 
       });
@@ -172,29 +187,40 @@ export class EditPackageComponent implements OnInit {
           PackageId :this.packageId
 }
 
+
         this.apiService.callApiWithBearer(requestPayload, 'package/details').subscribe((response:any) => {
 
        //   this.packageData=response.data;
           //let resSTR = JSON.parse(response.data);
           this.packageData=response.data;
+          this.selectedParent=response.data.CategoryId
+
+          this.selectedParentStatus[this.selectedParent]=true;
+
+
           this.packageData.Programs=JSON.parse(response.data.Programs)
           this.packageData.Inclusions=JSON.parse(response.data.Inclusions)
           this.packageData.Exclusions=JSON.parse(response.data.Exclusions)
           this.packageData.Terms=JSON.parse(response.data.Terms)
           this.packageData.Type=JSON.parse(response.data.Type)
 
+
+
           this.packageType.map((item)=>{
             if(this.packageData.Type.findIndex((innerItem:any)=>item.id==innerItem.id)>-1){
               item.isSelected=true;
             }
           })
-          console.info(this.packageType)
+          console.info(this.packageData.Exclusions)
 
           this.packageData.Cancellation=JSON.parse(response.data.Cancellation)
+
+          console.info(this.selectedParent)
 
           this.packageData.IsActive = (this.packageData.IsActive == 'Yes') ? true : false;
           this.packageData.isMenu = (this.packageData.isMenu == 'Yes') ? true : false;
           console.info(response.data.Image)
+
 
           // this.imgs = response['Images'];
             this.imageSrc = environment.PACKAGE_FOLDER+response.data.Image+"?v="+Math.random();
@@ -271,6 +297,13 @@ export class EditPackageComponent implements OnInit {
       }
 
     }
+    changeParent(name, status) {
+      this.selectedParentStatus=[]
+      this.selectedParent = (status) ? name : 0;
+
+      console.info( this.selectedParent)
+
+    }
     editPackageAction() {
 
 
@@ -330,11 +363,7 @@ export class EditPackageComponent implements OnInit {
       return false;;
     }
 
-    else if (this.packageData.CategoryId ==0) {
-      this.errorMessage = 'Package Select Category';
-      this.error = true;
-      return false;;
-    }
+
 
     else if (this.packageData.Type == '') {
       this.errorMessage = 'Package Select Package Type';
@@ -379,10 +408,12 @@ export class EditPackageComponent implements OnInit {
     }
 
     updatePackage() {
+      this.packageData.CategoryId= this.selectedParent
 
     let data = JSON.parse(JSON.stringify(this.packageData));
     data.IsActive = (data.IsActive == true) ? 'Yes' : 'No';
     data.isMenu = (data.isMenu == true) ? 'Yes' : 'No';
+
 
     delete data.image;
     delete data.Image;

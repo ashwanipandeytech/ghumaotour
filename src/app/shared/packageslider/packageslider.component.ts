@@ -80,6 +80,8 @@ export class PackagesliderComponent implements OnInit {
     }
 
 let requestPayload;
+console.info('Popular',this.packageType)
+
 if(this.packageType=='Popular'){
   requestPayload={
     Type:[
@@ -89,6 +91,7 @@ if(this.packageType=='Popular'){
       }
     ]
   }
+  console.info('Popular')
 
 }
 else if(this.packageType=='Honeymoon'){
@@ -103,7 +106,7 @@ requestPayload={
 }
 }
 
-this.apiService.callApiWithBearer(requestPayload, 'package').subscribe((response:any) => {
+this.apiService.callApiWithBearer(requestPayload, 'package',true).subscribe((response:any) => {
 
   //   this.packageData=response.data;
      //let resSTR = JSON.parse(response.data);

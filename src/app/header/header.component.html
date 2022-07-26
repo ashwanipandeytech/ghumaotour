@@ -47,7 +47,12 @@
                 </h1>
             </div>
             <div class="main-navigation d-none d-lg-block">
-                <nav id="navigation" class="navigation">
+
+
+
+
+
+                <nav id="navigation1" class="navigation d-none">
                     <ul>
                         <li class="menu-item-has-children">
                             <a href="/">Home</a>
@@ -115,45 +120,93 @@
 
                         <ng-container *ngIf="MenuList!=''">
 
-                            <li class="menu-item-has-children" *ngFor="let item of MenuList">
+                            <li class="menu-item-has-children dropdown-megamenu" *ngFor="let item of MenuList">
                                 <a href="#">{{item.CategoryName}}
-  </a>
+                                </a>
                                 <ul *ngIf="item.Packages!=''">
+
                                     <li *ngFor="let innerItem of item.Packages">
                                         <a [routerLink]="['package/'+innerItem.PackageSlug]">{{innerItem.PackageName}} </a>
+
+
                                     </li>
 
-                                    <!--
-          <li>
-            <a routerLink="/colorful-rajasthan">Colourful Rajasthan </a>
-        </li>
-          <li>
-            <a routerLink="/amazing-rajasthan">Amazing Rajasthan</a>
-        </li>
-        <li>
-            <a routerLink="/rangilo-rajasthan">Rangilo Rajasthan with Sand Dunes</a>
-        </li>
-        <li>
-            <a routerLink="/rajasthan-sandunes">Rajasthan with Sand Dunes</a>
-        </li>
-        <li>
-            <a routerLink="/rajasthan-ajmer-pushkar">Golden Triangle tour with Ajmer &amp; Pushkar</a>
-        </li>
 
-
-        <li>
-            <a routerLink="/rajasthan-ranthambore-jungle-safari">Golden Triangle tour with Ranthambore Jungle Safari</a>
-        </li>
-        <li>
-            <a routerLink="/beautiful-udaipur">Beautiful Udaipur with Mount Abu</a>
-        </li> -->
                                 </ul>
+
+
+
+
+
+
                             </li>
                         </ng-container>
 
 
                     </ul>
                 </nav>
+
+                <nav id="navigation" class="  navbar navbar-expand-lg navbar-dark ">
+                    <!-- <a class="navbar-brand" href="#">Mega Dropdown</a> -->
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+
+                    <div class="collapse navbar-collapse navigation" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Home</a>
+                            </li>
+                            <li class="nav-item " *ngFor="let item of MenuList" [ngClass]="{'dropdown': item.children_recursive!=''}">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         {{item.CategoryName}}
+                        </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <div class="p-2">
+                                        <div class="row">
+                                            <ng-container *ngTemplateOutlet="Recursion; context:{ list: item.children_recursive}"></ng-container>
+
+
+                                            <!-- <div class="col-md-6" *ngFor="let innerItem of item.children_recursive">
+                                                {{innerItem.CategoryName}}
+
+                                                <div class="row">
+                                                    <div class="col-md-6" *ngFor="let innerItem of item.children_recursive">
+                                                        {{innerItem.CategoryName}}
+                                                    </div>
+                                                </div>
+
+                                            </div> -->
+
+                                        </div>
+                                    </div>
+                                    <!--  /.container  -->
+
+
+                                </div>
+                            </li>
+
+
+
+
+
+
+
+
+
+
+                        </ul>
+
+                    </div>
+
+
+                </nav>
+
+
+
+
+
+
             </div>
             <div class="header-btn">
                 <a (click)="utilityservice.scrollToComponent('inquiryformsection')" class="button-primary" role="button">Enquire Now</a>
@@ -161,4 +214,32 @@
         </div>
     </div>
     <div class="mobile-menu-container"></div>
+
+
+
+    <ng-template #Recursion let-list="list">
+
+        <div class="col-3 mt-2" *ngFor="let item of list">
+
+
+
+            <a routerLink="category/{{item.CategorySlug}}" style="display: contents;" [ngClass]="{'active': item.CategorySlug==slug}" class="text-dark btn btn-link w-100">
+                <strong>  {{item.CategoryName}}</strong> </a>
+
+
+            <div class="row" *ngIf="item.children_recursive.length > 0">
+                <ng-container *ngTemplateOutlet="Recursion; context:{ list: item.children_recursive }"></ng-container>
+            </div>
+
+        </div>
+
+
+
+        <!-- <li *ngFor="let item of list">
+            <a href="#">{{ item.CategoryName }}</a>
+            <ul *ngIf="item.children_recursive.length > 0">
+                <ng-container *ngTemplateOutlet="Recursion; context:{ list: item.children_recursive }"></ng-container>
+            </ul>
+        </li> -->
+    </ng-template>
 </header>

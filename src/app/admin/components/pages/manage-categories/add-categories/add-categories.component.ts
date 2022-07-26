@@ -1,18 +1,111 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { ApiService } from 'src/app/services/api.service';
 import { AdminService } from 'src/app/admin/services/admin.service';
 
+import { NestedTreeControl } from '@angular/cdk/tree';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { TreeNode } from '../../../../models/model';
+
 @Component({
   selector: 'app-add-categories',
   templateUrl: './add-categories.component.html',
-  styles: [
-  ]
+  styles: [`
+  @import '@angular/material/prebuilt-themes/indigo-pink.css';
+  .category-tree ul,
+  .category-tree li {
+      margin-top: 0;
+      margin-bottom: 4px;
+      list-style-type: none;
+  }
+
+  .mat-tree {
+      width: 100%;
+      list-style: none;
+      .nodeParent {
+          margin-bottom: 5px;
+          border: 1px solid var(--theme-color-2);
+          justify-content: space-between;
+          padding-right: 10px;
+          cursor: auto;
+          .nodetext {
+              display: flex;
+              align-items: center;
+              .material-icons {
+                  cursor: pointer;
+              }
+          }
+
+      }
+      .sequence{
+          cursor: move !important;
+        }
+      .nodeChildrow {
+          margin-bottom: 5px;
+          border: 1px solid var(--theme-color-2);
+          justify-content: space-between;
+          padding-left: 10px;
+          padding-right: 10px;
+      }
+  }
+
+  .fliterNode {
+
+      border: 1px solid var(--theme-color-2);
+      margin-bottom: 25px;
+      .nodeSingle {
+          height: 300px;
+          overflow: auto;
+          // total width
+          &::-webkit-scrollbar {
+              background-color: var(--theme-color-3);
+              width: 8px
+          }
+          // background of the scrollbar except button or resizer
+          &::-webkit-scrollbar-track {
+              background-color: var(--theme-color-3);
+          }
+          // scrollbar itself
+          &::-webkit-scrollbar-thumb {
+              background-color: #babac0;
+              border-radius: 16px;
+              border: 1px solid var(--theme-color-3);
+          }
+          // set button(top and bottom of the scrollbar)
+          &::-webkit-scrollbar-button {
+              display: none
+          }
+          .mat-tree-node {
+              min-height: 30px;
+          }
+          ul {
+              list-style: none;
+          }
+      }
+
+
+  }
+  .ng-untouched{
+    border:unset;
+  }
+      `
+  ],
+  encapsulation: ViewEncapsulation.None
 })
 export class AddCategoriesComponent implements OnInit {
+
+  treeControl = new NestedTreeControl<TreeNode>(node => node.children_recursive);
+  dataSource = new MatTreeNestedDataSource<TreeNode>();
+  selectedParent: any;
+  selectedParentStatus: any;
+
+  hasChild (_: number, node: TreeNode): boolean {
+    return (node.children_recursive.length > 0) ?    true :     false;
+   }
+
     uploadImage: Boolean;
     imageUploadForm: FormGroup;
     imageSrc: any;
@@ -34,10 +127,11 @@ export class AddCategoriesComponent implements OnInit {
     constructor(private adminApiService: AdminService,private apiService:ApiService, private router: Router) {}
 
     ngOnInit(): void {
+      this.selectedParentStatus=[]
         this.initAddCategoryForm();
         this.intiImageUploadForm();
         this.error = false;
-        this.uploadImage = false;
+        this.uploadImage = true;
     }
 
     intiImageUploadForm() {
@@ -49,17 +143,71 @@ export class AddCategoriesComponent implements OnInit {
 
     initAddCategoryForm(){
         this.addCategoryFrom = new FormGroup({
-            CategoryName: new FormControl('', [Validators.required, Validators.minLength(6)]),
+            CategoryName: new FormControl('', [Validators.required, Validators.minLength(3)]),
+            CategorySlug: new FormControl(''),
             Description: new FormControl(''),
+            CategoryTitle:new FormControl(''),
             isMenu:new FormControl(false),
             IsActive:new FormControl(false),
           //  StartingPrice:new FormControl(0),
             Image: new FormControl('')
         });
+
+
+        this.apiService.callApiWithBearer('', 'category/list',true).subscribe((res: any) => {
+          if(res.success && res.data!=''){
+            this.dataSource.data=res.data
+          }else{
+            this.dataSource.data=[]
+          }
+
+
+
+         })
+    }
+
+    changeParent(name, status) {
+
+      this.selectedParent = (status) ? name : '';
+
+      console.info( this.selectedParent)
+
     }
 
     addCategoryAction(){
-      console.info(this.addCategoryFrom.valid)
+
+
+
+if(this.uploadImage && this.imageUploadForm.get('FileSource').value==''){
+  this.errorMessage = 'Please Enter Category Banner Image';
+  this.error = true;
+  return false;
+
+}
+
+else if(this.addCategoryFrom.get('CategoryName').value==''){
+  this.errorMessage = 'Please Enter Category Name';
+  this.error = true;
+  return false;
+
+}
+else if(this.addCategoryFrom.get('CategorySlug').value==''){
+  this.errorMessage = 'Please Enter Category Slug';
+  this.error = true;
+  return false;
+
+}
+else if(this.addCategoryFrom.get('CategoryTitle').value==''){
+  this.errorMessage = 'Please Enter Category Title';
+  this.error = true;
+  return false;
+
+}
+
+
+
+
+
         if (this.addCategoryFrom.valid) {
           // this.imageUpload()
           this.addCategory();
@@ -86,12 +234,17 @@ export class AddCategoriesComponent implements OnInit {
 
         var formData = new FormData();
         formData.append('CategoryName', this.addCategoryFrom.get('CategoryName').value);
+        formData.append('CategorySlug', this.addCategoryFrom.get('CategorySlug').value);
+        formData.append('CategoryTitle', this.addCategoryFrom.get('CategoryTitle').value);
+
         formData.append('Description', this.addCategoryFrom.get('Description').value);
         formData.append('IsActive', (this.addCategoryFrom.get('IsActive').value)?'Yes':'No');
         formData.append('isMenu', (this.addCategoryFrom.get('isMenu').value)?'Yes':'No');
+        formData.append('parent_id', this.selectedParent);
         formData.append('CreatedBy', '0');
         formData.append('StartingPrice', '0');
         //formData.append('Image', '0');
+       // console.info( this.addCategoryFrom.value);return false
         if(this.uploadImage && this.imageUploadForm.get('FileSource').value && this.imageUploadForm.get('FileSource').value!=''){
           formData.append('Image', this.imageUploadForm.get('FileSource').value);
         }

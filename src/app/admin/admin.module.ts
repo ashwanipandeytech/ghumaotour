@@ -58,7 +58,9 @@ import { EditTestimonialComponent } from './components/pages/manage-testimonial/
 import { ManagePackagetypesComponent } from './components/pages/manage-packagetypes/manage-packagetypes.component';
 import { ManageAddpackagetypeComponent } from './components/pages/manage-packagetypes/manage-addpackagetype/manage-addpackagetype.component';
 import { ManageEditpackagetypeComponent } from './components/pages/manage-packagetypes/manage-editpackagetype/manage-editpackagetype.component';
-
+import { MatTreeModule } from '@angular/material/tree';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
     declarations: [
         AdminAppComponent,
@@ -116,7 +118,10 @@ import { ManageEditpackagetypeComponent } from './components/pages/manage-packag
         DataTablesModule,
         ReactiveFormsModule,
         SweetAlert2Module.forRoot(),
-        FormsModule
+        FormsModule,
+        MatTreeModule,
+        MatCheckboxModule,
+        MatIconModule
     ],
     providers: [
         AdminService,

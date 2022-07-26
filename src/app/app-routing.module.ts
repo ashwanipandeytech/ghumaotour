@@ -12,6 +12,19 @@ const routes: Routes = [
   },
 
   {
+    path: 'category',
+    pathMatch: 'full',
+    loadChildren: () => import('./category/category.module').then(m => m.CategoryModule),
+
+  },
+  {
+    path: 'category/:slug',
+    pathMatch: 'full',
+    loadChildren: () => import('./category/category.module').then(m => m.CategoryModule),
+
+  },
+
+  {
     path: 'package',
     pathMatch: 'full',
     loadChildren: () => import('./packages/packages.module').then(m => m.PackagesModule),
@@ -23,6 +36,8 @@ const routes: Routes = [
     loadChildren: () => import('./packages/packages.module').then(m => m.PackagesModule),
 
   },
+
+
 
   {
     path: 'colorful-rajasthan',
@@ -91,7 +106,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{enableTracing:false,onSameUrlNavigation: 'reload'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

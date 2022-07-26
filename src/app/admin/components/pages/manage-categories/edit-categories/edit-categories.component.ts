@@ -1,5 +1,5 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -9,13 +9,107 @@ import { Category } from 'src/app/models/category.model';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 
+
+
+import { NestedTreeControl } from '@angular/cdk/tree';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { TreeNode } from '../../../../models/model';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-edit-categories',
   templateUrl: `./edit-categories.component.html`,
-  styles: [
-  ]
+  styles: [`
+  @import '@angular/material/prebuilt-themes/indigo-pink.css';
+  .category-tree ul,
+  .category-tree li {
+      margin-top: 0;
+      margin-bottom: 4px;
+      list-style-type: none;
+  }
+
+  .mat-tree {
+      width: 100%;
+      list-style: none;
+      .nodeParent {
+          margin-bottom: 5px;
+          border: 1px solid var(--theme-color-2);
+          justify-content: space-between;
+          padding-right: 10px;
+          cursor: auto;
+          .nodetext {
+              display: flex;
+              align-items: center;
+              .material-icons {
+                  cursor: pointer;
+              }
+          }
+
+      }
+      .sequence{
+          cursor: move !important;
+        }
+      .nodeChildrow {
+          margin-bottom: 5px;
+          border: 1px solid var(--theme-color-2);
+          justify-content: space-between;
+          padding-left: 10px;
+          padding-right: 10px;
+      }
+  }
+
+  .fliterNode {
+
+      border: 1px solid var(--theme-color-2);
+      margin-bottom: 25px;
+      .nodeSingle {
+          height: 300px;
+          overflow: auto;
+          // total width
+          &::-webkit-scrollbar {
+              background-color: var(--theme-color-3);
+              width: 8px
+          }
+          // background of the scrollbar except button or resizer
+          &::-webkit-scrollbar-track {
+              background-color: var(--theme-color-3);
+          }
+          // scrollbar itself
+          &::-webkit-scrollbar-thumb {
+              background-color: #babac0;
+              border-radius: 16px;
+              border: 1px solid var(--theme-color-3);
+          }
+          // set button(top and bottom of the scrollbar)
+          &::-webkit-scrollbar-button {
+              display: none
+          }
+          .mat-tree-node {
+              min-height: 30px;
+          }
+          ul {
+              list-style: none;
+          }
+      }
+
+
+  }
+  .ng-untouched{
+    border:unset;
+  }
+      `
+  ],
+  encapsulation: ViewEncapsulation.None
 })
 export class EditCategoriesComponent implements OnInit {
+
+  treeControl = new NestedTreeControl<TreeNode>(node => node.children_recursive);
+  dataSource = new MatTreeNestedDataSource<TreeNode>();
+  selectedParent: any;
+  selectedParentStatus: any;
+
+  hasChild (_: number, node: TreeNode): boolean {
+    return (node.children_recursive.length > 0) ?    true :     false;
+   }
     category : Observable<Category>;
     uploadImage: Boolean;
     imageUploadForm: FormGroup;
@@ -41,6 +135,7 @@ export class EditCategoriesComponent implements OnInit {
 
     ngOnInit(): void {
         this.categoryId  = this.route.snapshot.paramMap.get('categoryId');
+        this.selectedParentStatus=[];
         this.initEditCategoryForm();
         this.intiImageUploadForm();
         this.error = false;
@@ -56,7 +151,9 @@ export class EditCategoriesComponent implements OnInit {
 
     initEditCategoryForm(){
         this.editCategoryFrom = new FormGroup({
-            CategoryName: new FormControl('', [Validators.required, Validators.minLength(6)]),
+            CategoryName: new FormControl('', [Validators.required, Validators.minLength(3)]),
+            CategorySlug: new FormControl(''),
+            CategoryTitle:new FormControl(''),
             isMenu:new FormControl(false),
             IsActive:new FormControl(false),
             Description: new FormControl(''),
@@ -72,23 +169,66 @@ export class EditCategoriesComponent implements OnInit {
 
             this.editCategoryFrom.patchValue({
               CategoryName:response.data.CategoryName,
+              CategorySlug:response.data.CategorySlug,
+              CategoryTitle:response.data.CategoryTitle,
               isMenu:(response.data.isMenu=='Yes')?true:false,
               IsActive:(response.data.IsActive=='Yes')?true:false,
               Description:response.data.Description,
 
+
             })
+            this.imageSrc = environment.CATEGORY_FOLDER+response.data.Image+"?v="+Math.random();
+            this.selectedParent=response.data.parent_id;
 
-           // this.editCategoryFrom.set('CategoryName').value
-            // this.catKeys = response[0]['Keys'];
-
-            // this.catKeys.forEach((k) => {
-            //     $('#key-popular-' + k.Key.toLowerCase()).prop('checked',true);
-            // });
+            this.apiService.callApiWithBearer('', 'category/list',true).subscribe((res: any) => {
+              if(res.success && res.data!=''){
+                this.dataSource.data=res.data
+                this.selectedParentStatus[this.selectedParent] = true;
+              }else{
+                this.dataSource.data=[]
+              } });
         });
     }
 
+    changeParent(name, status) {
+
+      this.selectedParent = (status) ? name : '';
+
+      console.info( this.selectedParent)
+
+    }
+
+
     editCategoryAction(){
       this.editCategoryFrom.markAsUntouched();
+
+      if(this.uploadImage && this.imageUploadForm.get('FileSource').value==''){
+        this.errorMessage = 'Please Enter Category Banner Image';
+        this.error = true;
+        return false;
+
+      }
+
+      else if(this.editCategoryFrom.get('CategoryName').value==''){
+        this.errorMessage = 'Please Enter Category Name';
+        this.error = true;
+        return false;
+
+      }
+      else if(this.editCategoryFrom.get('CategorySlug').value==''){
+        this.errorMessage = 'Please Enter Category Slug';
+        this.error = true;
+        return false;
+
+      }
+      else if(this.editCategoryFrom.get('CategoryTitle').value==''){
+        this.errorMessage = 'Please Enter Category Title';
+        this.error = true;
+        return false;
+
+      }
+
+
       this.editCategory();return false
         if (this.editCategoryFrom.valid) {
             if(this.uploadImage) {
@@ -116,12 +256,16 @@ export class EditCategoriesComponent implements OnInit {
 
         formData.append('CategoryId', this.categoryId);
         formData.append('CategoryName', this.editCategoryFrom.get('CategoryName').value);
+        formData.append('CategoryTitle', this.editCategoryFrom.get('CategoryTitle').value);
+        formData.append('CategorySlug', this.editCategoryFrom.get('CategorySlug').value);
         formData.append('Description', this.editCategoryFrom.get('Description').value);
         formData.append('IsActive', (this.editCategoryFrom.get('IsActive').value)?'Yes':'No');
         formData.append('isMenu', (this.editCategoryFrom.get('isMenu').value)?'Yes':'No');
         formData.append('CreatedBy', '0');
         formData.append('StartingPrice', '0');
-        formData.append('Image', '0');
+
+
+        formData.append('parent_id', this.selectedParent);
         if(this.uploadImage && this.imageUploadForm.get('FileSource').value && this.imageUploadForm.get('FileSource').value!=''){
           formData.append('Image', this.imageUploadForm.get('FileSource').value);
         }
@@ -192,7 +336,7 @@ export class EditCategoriesComponent implements OnInit {
 
     onFileChange(event) {
         if (event.target.files.length > 0) {
-            this.uploadImage = true;
+           // this.uploadImage = true;
             const file = event.target.files[0];
 
             this.imageUploadForm.patchValue({

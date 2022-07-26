@@ -26,7 +26,7 @@ export class TestimonialComponent implements OnInit {
 }
 
 loadTestimonials(){
-    this.apiService.callApiWithBearer({},'testimonial').subscribe((response:any) => {
+    this.apiService.callApiWithBearer({},'testimonial',true).subscribe((response:any) => {
       if(response.success && response.data!=''){
         this.testimonials = response.data;
         this.testimonials.map((item:any)=>{

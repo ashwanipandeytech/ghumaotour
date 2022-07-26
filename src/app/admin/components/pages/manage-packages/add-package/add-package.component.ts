@@ -1,5 +1,5 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from 'src/app/admin/services/admin.service';
@@ -7,11 +7,88 @@ import { Category } from 'src/app/models/category.model';
 import { ApiService } from 'src/app/services/api.service';
 import Swal from 'sweetalert2';
 declare var $: any;
+
+import { NestedTreeControl } from '@angular/cdk/tree';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { TreeNode } from '../../../../models/model';
+
 @Component({
   selector: 'app-add-package',
   templateUrl: './add-package.component.html',
-  styles: [
-  ]
+  styles: [`
+  @import '@angular/material/prebuilt-themes/indigo-pink.css';
+  .mat-tree {
+    width: 100%;
+    list-style: none;
+    .nodeParent {
+        margin-bottom: 5px;
+        border: 1px solid var(--theme-color-2);
+        justify-content: space-between;
+        padding-right: 10px;
+        cursor: auto;
+        .nodetext {
+            display: flex;
+            align-items: center;
+            .material-icons {
+                cursor: pointer;
+            }
+        }
+
+    }
+    .sequence{
+        cursor: move !important;
+      }
+    .nodeChildrow {
+        margin-bottom: 5px;
+        border: 1px solid var(--theme-color-2);
+        justify-content: space-between;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+.fliterNode {
+
+    border: 1px solid var(--theme-color-2);
+    margin-bottom: 25px;
+    .nodeSingle {
+        height: 300px;
+        overflow: auto;
+        // total width
+        &::-webkit-scrollbar {
+            background-color: var(--theme-color-3);
+            width: 8px
+        }
+        // background of the scrollbar except button or resizer
+        &::-webkit-scrollbar-track {
+            background-color: var(--theme-color-3);
+        }
+        // scrollbar itself
+        &::-webkit-scrollbar-thumb {
+            background-color: #babac0;
+            border-radius: 16px;
+            border: 1px solid var(--theme-color-3);
+        }
+        // set button(top and bottom of the scrollbar)
+        &::-webkit-scrollbar-button {
+            display: none
+        }
+        .mat-tree-node {
+            min-height: 30px;
+        }
+        ul {
+            list-style: none;
+        }
+    }
+
+
+}
+.ng-untouched{
+  border:unset;
+}
+`
+  ],
+  encapsulation: ViewEncapsulation.None
 })
 export class AddPackageComponent implements OnInit {
   uploadImage: Boolean;
@@ -33,23 +110,32 @@ export class AddPackageComponent implements OnInit {
   packages: any;
 
   constructor(private apiService: ApiService, private route: ActivatedRoute, private adminApiService: AdminService, private router: Router) { }
+  treeControl = new NestedTreeControl<TreeNode>(node => node.children_recursive);
+  dataSource = new MatTreeNestedDataSource<TreeNode>();
+  selectedParent: any;
+  selectedParentStatus: any;
+
+  hasChild(_: number, node: TreeNode): boolean {
+    return (node.children_recursive.length > 0) ? true : false;
+  }
 
   ngOnInit(): void {
     // this.initAddPackageForm();
+    this.selectedParentStatus = []
     this.intiImageUploadForm();
     this.error = false;
     this.uploadImage = true;
 
     const today = new Date();
     const yyyy = today.getFullYear();
-    let mm,dd;
-     mm = today.getMonth() + 1; // Months start at 0!
-     dd = today.getDate();
+    let mm, dd;
+    mm = today.getMonth() + 1; // Months start at 0!
+    dd = today.getDate();
 
     if (dd < 10) { dd = '0' + dd; }
     if (mm < 10) { mm = '0' + mm; }
 
-    const formattedToday = yyyy+'-'+mm+'-'+dd;
+    const formattedToday = yyyy + '-' + mm + '-' + dd;
 
 
     this.packageData = {
@@ -64,8 +150,8 @@ export class AddPackageComponent implements OnInit {
       NumberOfPerson: 0,
       Priority: '',
       IsActive: false,
-      isMenu:false,
-      Note:'',
+      isMenu: false,
+      Note: '',
       Programs: [
         {
           "Day": 1,
@@ -101,9 +187,11 @@ export class AddPackageComponent implements OnInit {
       Image: ''
     };
 
-    this.apiService.callApiWithBearer('', 'category').subscribe((response: any) => {
+    this.apiService.callApiWithBearer('', 'category/list').subscribe((response: any) => {
       if (response.success && response.data && response.data != '') {
         this.categories = response.data;
+        this.dataSource.data = response.data
+
         let slug = this.route.snapshot.paramMap.get('_id');
 
         let categoryId;
@@ -115,10 +203,12 @@ export class AddPackageComponent implements OnInit {
           categoryId = 0
         }
         console.info(categoryId)
+        this.selectedParent = categoryId
         this.packageData.CategoryId = categoryId
         this.initAddPackageForm(categoryId);
       } else {
         this.categories = [];
+        this.dataSource.data = []
       }
 
     });
@@ -203,8 +293,8 @@ export class AddPackageComponent implements OnInit {
       label: 'Top Notch '
     },
     {
-      id:'7',
-      label:'Other'
+      id: '7',
+      label: 'Other'
     },
 
     ]
@@ -253,25 +343,33 @@ export class AddPackageComponent implements OnInit {
     }
 
   }
-  remove(type,index) {
+  remove(type, index) {
     if (type == 'program') {
-      this.packageData.Programs.splice(index,1)
+      this.packageData.Programs.splice(index, 1)
     }
     else if (type == 'Inclusions') {
-      this.packageData.Inclusions.splice(index,1)
+      this.packageData.Inclusions.splice(index, 1)
     }
     else if (type == 'Exclusions') {
-      this.packageData.Exclusions.splice(index,1)
+      this.packageData.Exclusions.splice(index, 1)
 
     } else if (type == 'Cancellation') {
-      this.packageData.Cancellation.splice(index,1)
+      this.packageData.Cancellation.splice(index, 1)
     }
     else if (type == 'Terms') {
-      this.packageData.Terms.splice(index,1)
+      this.packageData.Terms.splice(index, 1)
     }
 
   }
 
+
+  changeParent(name, status) {
+    this.selectedParentStatus = []
+    this.selectedParent = (status) ? name : 0;
+
+    console.info(this.selectedParent)
+
+  }
   addPackageAction() {
 
 
@@ -328,11 +426,7 @@ export class AddPackageComponent implements OnInit {
       return false;;
     }
 
-    else if (this.packageData.CategoryId ==0) {
-      this.errorMessage = 'Package Select Category';
-      this.error = true;
-      return false;;
-    }
+
 
     else if (this.packageData.Type == '') {
       this.errorMessage = 'Package Select Package Type';
@@ -383,7 +477,8 @@ export class AddPackageComponent implements OnInit {
 
 
 
-
+    // this.selectedParent
+    this.packageData.CategoryId = this.selectedParent
 
     let data = JSON.parse(JSON.stringify(this.packageData));
     data.IsActive = (data.IsActive == true) ? 'Yes' : 'No';
@@ -393,6 +488,11 @@ export class AddPackageComponent implements OnInit {
     delete data.Image;
     delete data.InnerImage;
     delete data.SliderImage;
+
+
+
+    // data.Note='Hotels are subject to change due to availability reasons, and may be substituted with others of similar category and star rating.'
+
 
 
 
